@@ -23,52 +23,29 @@
  
 ******************************************************************************/
 
-#ifndef NF_NMOD_H
-#define NF_NMOD_H
+#include "nfz.h"
 
-#include "ulong_extras.h"
-#include "flint.h"
-
-typedef struct
+void
+_nf_nmod_reduction_mat(nmod_mat_t mat, nmod_poly_t modulus, ulong deg_bd)
 {
-  nmod_poly_t modulus;
-  int separable;
+  /* we assume that the modulus is monic */
 
-  slong nfp;
-  slong nfq;
-  mp_limb_t * fp_moduli;
-  nmod_poly_t * fq_moduli;
+  for (i = 0; i < deg && i < deg_bd; ++i)
+    {
+      for (j = 0; j < i; ++j)
+	*(mat->rows[i] + j) = 0;
+      *(mat->rows[i] + i) = 1;
+      for (j = i + 1; j < deg; ++j)
+	*(mat->rows[i] + j) = 0;
+    }
 
-  nmod_mat_t decomp_mat;
-  nmod_mat_t reconst_mat;
+  for (i = deg; i < deg_bd; ++i)
+    {
+      for (j = 0; j < deg; ++j)
+	*(mat->rows[i] + j) = 0;
 
-  nmod_mat_t ev_mat;
-  nmod_mat_t int_mat;
-
-  char * var;
+      for (j = 0; j < deg; ++j)
+	/* todo: implement _nmod_vec_scalar_addmul_nmod */
+	_nmod_vec_scalar_addmul_nmod(mat->rows[i], mat->rows[i - deg + j], deg, nmod_poly_get_coeff_ui(modulus, j), modulus->mod);
+    }
 }
-nf_nmod_ctx_struct;
-
-typedef nf_nmod_ctx_struct nf_nmod_ctx_t[1];
-
-/* Memory managment  *********************************************************/
-
-void nf_nmod_ctx_init(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const char *var);
-void _nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t ev_mat, const nmod_mat_t int_mat, const char *var);
-void nf_nmod_ctx_clear(nf_nmod_ctx_t ctx);
-
-int
-nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)
-{
-  return ctx->separable;
-}
-
-void _nf_nmod_reduction_mat(nmod_mat_t mat, nmod_poly_t modulus, ulong deg_bd);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifdef __cplusplus
-}
-#endif
