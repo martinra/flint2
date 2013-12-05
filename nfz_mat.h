@@ -50,7 +50,7 @@ typedef nfz_mat_struct nfz_mat_t[1];
 
 /* Memory managment  *********************************************************/
 
-#define nfz_mat_entry(mat,e,i,j) ((mat)->poly_coefficients[(e)][(i)][(j)])
+#define nfz_mat_entry(mat,e,i,j) ((mat)->poly_coeffs[(e)][(i)][(j)])
 #define nfz_mat_nrows(mat) ((mat)->r)
 #define nfz_mat_ncols(mat) ((mat)->c)
 
