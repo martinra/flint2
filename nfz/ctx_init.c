@@ -53,7 +53,7 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
   fmpz_mat_init(ev_big_mat, big_size, big_size);
   fmpz_mat_init(int_big_mat, big_size, big_size);
   fmpz_mat_init(int_big_red_mat, deg, big_size);
-  fmpz_mat_inti(red_mat, big_size, deg);
+  fmpz_mat_init(red_mat, big_size, deg);
 
   rk_prof = flint_malloc(sizeof(slong) * deg);
 
@@ -86,8 +86,8 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
   for (i = 0; i < deg; ++i)
     for (j = 0; j < deg; ++j)
       {
-	fmpz_set(fmpz_mat_entry(ev_mat_final, i, j), fmpz_mat_entry(ev_mat_big, i, rk_prof[j]));
-	fmpz_set(fmpz_mat_entry(int_mat_final, i, j), fmpz_mat(int_mat, rk_prof[i], j));
+	fmpz_set(fmpz_mat_entry(ctx->ev_mat, i, j), fmpz_mat_entry(ev_mat_big, i, rk_prof[j]));
+	fmpz_set(fmpz_mat_entry(ctx->int_mat, i, j), fmpz_mat(int_mat, rk_prof[i], j));
       }
 
   /* set the variable name */
