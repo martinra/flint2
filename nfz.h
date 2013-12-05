@@ -83,6 +83,9 @@ void nfz_ctx_print(const nfz_ctx_t ctx)
     nfz_ctx_fprint(stdout, ctx);
 }
 
+void _nfz_reduction_mat(fmpz_mat_t mat, fmpz_poly_t modulus, ulong deg_bd);
+
+
 #ifdef __cplusplus
 }
 #endif
