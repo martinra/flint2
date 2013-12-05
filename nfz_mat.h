@@ -37,7 +37,7 @@ extern "C" {
 
 typedef struct
 {
-    mp_limb_t * entries;
+    fmpz_t * entries;
     slong r;
     slong c;
     mp_limb_t ** rows;

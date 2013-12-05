@@ -26,7 +26,7 @@
 #include "nfz_mat.h"
 
 void
-nfz_mat_clear(nfz_mat_t mat, nfz_ctx_t ctx)
+nfz_mat_clear(nfz_mat_t mat, const nfz_ctx_t ctx)
 {
   if (mat->entries)
     {
