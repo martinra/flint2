@@ -23,11 +23,10 @@
  
 ******************************************************************************/
 
-
 #include "nfz_mat.h"
 
 slong
-_nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, int (*next_prime)(int))
+_nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, int (*next_prime)(const int))
 {
   bool break_modn_cycle;
 
