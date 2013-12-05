@@ -41,7 +41,7 @@ typedef struct
     slong r;
     slong c;
     mp_limb_t ** rows;
-    mp_limb_t *** poly_coefficients;
+    mp_limb_t *** poly_coeffs;
     fmpz_poly_t mod;
 }
 nfz_mat_struct;
@@ -54,8 +54,8 @@ typedef nfz_mat_struct nfz_mat_t[1];
 #define nfz_mat_nrows(mat) ((mat)->r)
 #define nfz_mat_ncols(mat) ((mat)->c)
 
-void nfz_mat_init(fmpz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx);
-void nfz_mat_init_set(fmpz_mat_t mat, const fmpz_mat_t src, const nfz_ctx_t ctx);
+void nfz_mat_init(nfz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx);
+void nfz_mat_init_set(nfz_mat_t mat, const nfz_mat_t src, const nfz_ctx_t ctx);
 void nfz_mat_set(nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
 void nfz_mat_clear(nfz_mat_t mat, const nfz_ctx_t ctx);
 
