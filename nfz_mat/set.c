@@ -34,6 +34,6 @@ nfz_mat_set(nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx)
 
         if (mat2->r && mat2->c)
             for (i = 0; i < mat2->r * ctx->deg; ++i)
-	      _nfz_vec_set(mat1->rows[i], mat2->rows[i], mat2->c, ctx);
+	      _fmpz_vec_set(mat1->rows[i], mat2->rows[i], mat2->c, ctx);
     }
 }
