@@ -96,6 +96,7 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
 
   /* set the modulus */
   fmpz_poly_init_set(ctx->modulus, modulus);
+  ctx->deg = deg;
 
   fmpz_clear(c);
   fmpz_mat_clear(ev_big_mat);

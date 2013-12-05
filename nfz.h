@@ -36,6 +36,7 @@ extern "C" {
 typedef struct
 {
   fmpz_poly_t modulus;
+  slong deg;
 
   fmpz_mat_t ev_mat;  
   fmpz_mat_t int_mat;
