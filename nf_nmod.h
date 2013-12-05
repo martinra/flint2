@@ -36,7 +36,7 @@ typedef struct
 
   slong nfp;
   slong nfq;
-  nmod_t * fp_moduli;
+  mp_limb_t * fp_moduli;
   nmod_poly_t * fq_moduli;
 
   nmod_mat_t decomp_mat;
@@ -47,7 +47,7 @@ typedef struct
 
   char * var;
 }
-  nf_nmod_ctx_struct;
+nf_nmod_ctx_struct;
 
 typedef nf_nmod_ctx_struct nf_nmod_ctx_t[1];
 
