@@ -34,8 +34,8 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
   nf_ctx_nmod_t ctx_nmod;
   nf_nmod_mat_t A_nmod;
 
-  size_t * nfz_rk_prof;
-  size_t * nmod_rk_prof;
+  mat_rank_profile nfz_rk_prof;
+  mat_rank_profile nmod_rk_prof;
 
   fmpz_t A_height_bd;
   fmpz_t B_height_bd;
@@ -45,8 +45,8 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 
   fmpz_init(p_prod);
 
-  nfz_rk_prof = flint_malloc(sizeof(size_t) * nfz_mat_nrows(A));
-  nmod_rk_prof = flint_malloc(sizeof(size_t) * nfz_mat_nrows(A));
+  nmod_mat_init_rank_profile(nfz_rk_prof, A->r);
+  nmod_mat_init_rank_profile(nmod_rk_prof, A->r);
 
   fmpz_init(A_height_bd);
   fmpz_init(B_height_bd);
@@ -77,7 +77,7 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
       nfz_mat_get_nmod_mat(A_nmod, A, ctx_nmod, ctx);
 
       nf_nmod_mat_rref_components(A_nmod, A_nmod, ctx_nmod);
-      if (!nf_nmod_mat_rank_profile(nmod_rk_prof, A_nmod, ctx_nmod))
+      if (nf_nmod_mat_rank_profile(nmod_rk_prof, A_nmod, ctx_nmod) == -1)
 	{
 	  nf_ctx_nmod_clear(ctx_nmod);
 	  nf_nmod_mat_clear(A_nmod, ctx_nmod);
@@ -129,8 +129,9 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 
 	  fmpz_clear(p_prod);
 
-	  flint_free(nfz_rk_prof);
-	  flint_free(nmod_rk_prof);
+	  nmod_mat_clear_rank_profile(nfz_rk_prof);
+	  nmod_mat_clear_rank_profile(nmod_rk_prof);
+
 	  flint_free(nmod_comp_rk_prof);
 
 	  fmpz_clear(A_height_bd);

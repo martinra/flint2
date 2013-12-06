@@ -67,6 +67,16 @@ void nf_nmod_mat_reconstruct_components(nf_nmod_mat_t A, const nmod_mat_t * fp_c
 void nf_nmod_mat_init_coeff_mat(nmod_mat_t B, const nf_nmod_mat_t A, slong n, const nf_nmod_ctx_t ctx);
 void nf_nmod_mat_clear_coeff_mat(nmod_mat_t B, const nf_nmod_ctx_t ctx);
 
+slong nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx ctx);
+
+void nf_nmod_mat_init_rank_profile(rank_profile_t rk_prof, slong r);
+
+void nf_nmod_mat_clear_rank_profile(rank_profile_t rk_prof);
+
+typedef (size_t *) nf_nmod_mat_rank_profile_t;
+
+slong _nf_nmod_mat_first_non_zero_entry(mp_limb_t * entry, const nf_nmod_mat_t A, slong r, slong c, const nf_nmod_ctx_t ctx);
+
 
 #ifdef __cplusplus
 extern "C" {

@@ -63,9 +63,12 @@ slong _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t
 
 void nfz_mat_get_nmod_mat(nf_nmod_mat_t B, const nfz_mat_t A, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
+slong nfz_mat_rank_profile(nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const nf_ctx_t ctx);
+
+slong _nfz_mat_first_non_zero_entry(fmpz_t * entry, const nfz_mat_t A, slong r, slong c, const nfz_ctx_t ctx);
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-
