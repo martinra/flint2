@@ -52,6 +52,19 @@ void nf_nmod_mat_clear(nf_nmod_mat_t mat, const nf_nmod_ctx_t ctx);
 
 void nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
 
+
+void _nf_nmod_reduction_mat(nmod_mat_t mat, nmod_poly_t modulus, ulong deg_bd);
+
+void _nf_nmod_mat_init_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_ctx_t * fq_ctxs, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
+
+void _nf_nmod_mat_clear_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_ctx_t * fq_ctxs, const nf_nmod_ctx_t ctx);
+
+
+void nf_nmod_mat_decompose_comp(nmod_mat_t * fp_rrefs, fq_nmod_mat_t * fq_rrefs, fq_ctx_t * fq_ctxs, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
+
+void nf_nmod_mat_reconstruct_comp(nf_nmod_mat_t B, const nmod_mat_t * fp_rrefs, const fq_nmod_mat_t * fq_rrefs, const nf_nmod_ctx_t ctx);
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif

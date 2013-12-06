@@ -59,7 +59,7 @@ nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ct
 	rank = -1;
     }
 
-  nf_nmod_reconstruct_comp(B, fp_rrefs, fq_rrefs, ctx);
+  nf_nmod_mat_reconstruct_comp(B, fp_rrefs, fq_rrefs, ctx);
   nf_nmod_mat_clear_components(fp_rrefs, fq_rrefs, fq_ctxs, ctx);
 
   return rank;

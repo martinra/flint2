@@ -64,8 +64,6 @@ nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)
   return ctx->separable;
 }
 
-void _nf_nmod_reduction_mat(nmod_mat_t mat, nmod_poly_t modulus, ulong deg_bd);
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -73,3 +71,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+
