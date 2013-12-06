@@ -66,7 +66,7 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
       // probably fmpz_mat is the best place for this
       p = next_prime(p);
 
-      nf_ctx_nmod_init_by_nfz_ctx(ctx_nmod, ctx);
+      nfz_ctx_get_nmod_ctx(ctx_nmod, ctx);
       if (!nf_ctx_nmod_is_separable(ctx_nmod))
 	{
 	  nf_ctx_nmod_clear(ctx_nmod);
@@ -74,7 +74,7 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 	}
 
       nf_nmod_mat_init(A_nmod, ctx_nmod);
-      nfz_mat_get_nmod_mat(A_nmod, A, ctx, ctx_nmod);
+      nfz_mat_get_nmod_mat(A_nmod, A, ctx_nmod, ctx);
 
       nf_nmod_mat_rref_components(A_nmod, A_nmod, ctx_nmod);
       if (!nf_nmod_mat_rank_profile(nmod_rk_prof, A_nmod, ctx_nmod))
