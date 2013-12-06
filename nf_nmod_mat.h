@@ -41,7 +41,7 @@ nf_nmod_mat_struct;
 
 typedef nf_nmod_mat_struct nf_nmod_mat_t[1];
 
-#define nf_nmod_mat_entry(mat,e,i,j) ((mat)->poly_coeffs[(e)][(i)][(j)])
+#define nf_nmod_mat_entry(mat,n,i,j) ((mat)->poly_coeffs[(n)][(i)][(j)])
 #define nf_nmod_mat_nrows(mat) ((mat)->r)
 #define nf_nmod_mat_ncols(mat) ((mat)->c)
 
