@@ -41,7 +41,7 @@ nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ct
   // note: decompose into elements corresponding to simple
   // components of the algebra Fp[X] / p(x)
   nf_nmod_mat_init_components(fp_rrefs, fq_rrefs, fq_ctxs, A->r, A->c, ctx);
-  nf_nmod_mat_decompose_comp(fp_rrefs, fq_rrefs, fq_ctxs, A, ctx);
+  nf_nmod_mat_decompose_components(fp_rrefs, fq_rrefs, fq_ctxs, A, ctx);
 
   for (int i = 0; i < ctx->nfq; ++i)
     {
@@ -59,7 +59,7 @@ nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ct
 	rank = -1;
     }
 
-  nf_nmod_mat_reconstruct_comp(B, fp_rrefs, fq_rrefs, ctx);
+  nf_nmod_mat_reconstruct_components(B, fp_rrefs, fq_rrefs, fq_ctxs, ctx);
   nf_nmod_mat_clear_components(fp_rrefs, fq_rrefs, fq_ctxs, ctx);
 
   return rank;
