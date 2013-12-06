@@ -52,7 +52,7 @@ nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong n)
 
       fmpz_mat_get_nmod_mat(ev_mat, ctx->ev_mat);
       fmpz_mat_get_nmod_mat(int_mat, ctx->int_mat);
-      int_den = fmpz_get_nmod(ctx->int_den);
+      int_den = fmpz_fdiv_ui(ctx->int_den, n);
       int_den = nmod_inv(int_den, mod);
       nmod_mat_scalar_mul(int_mat, int_mat, int_den);
 
