@@ -32,6 +32,7 @@
 typedef struct
 {
   nmod_poly_t modulus;
+  slong deg;
   int separable;
 
   slong nfp;
