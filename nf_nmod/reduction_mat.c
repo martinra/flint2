@@ -45,7 +45,6 @@ _nf_nmod_reduction_mat(nmod_mat_t mat, nmod_poly_t modulus, ulong deg_bd)
 	*(mat->rows[i] + j) = 0;
 
       for (j = 0; j < deg; ++j)
-	/* todo: implement _nmod_vec_scalar_addmul_nmod */
 	_nmod_vec_scalar_addmul_nmod(mat->rows[i], mat->rows[i - deg + j], deg, nmod_poly_get_coeff_ui(modulus, j), modulus->mod);
     }
 }
