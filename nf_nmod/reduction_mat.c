@@ -23,14 +23,13 @@
  
 ******************************************************************************/
 
-#include "nfz.h"
+#include "nf_nmod.h"
 
 void
 _nf_nmod_reduction_mat(nmod_mat_t mat, const nmod_poly_t modulus, ulong deg_bd)
 {
   ulong j, n;
   ulong deg;
-  mp_limb_t c;
 
   deg = nmod_poly_degree(modulus);
 

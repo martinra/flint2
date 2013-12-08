@@ -35,6 +35,8 @@
 extern "C" {
 #endif
 
+/* Number field mod n context ************************************************/
+
 typedef struct
 {
   nmod_poly_t modulus;
@@ -58,18 +60,21 @@ nf_nmod_ctx_struct;
 
 typedef nf_nmod_ctx_struct nf_nmod_ctx_t[1];
 
-/* Memory managment  *********************************************************/
 
 void nf_nmod_ctx_init(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const char *var);
-void _nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t ev_mat, const nmod_mat_t int_mat, const char *var);
-void nf_nmod_ctx_clear(nf_nmod_ctx_t ctx);
 
+void _nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t ev_mat, const nmod_mat_t int_mat, const char *var);
+
+void nf_nmod_ctx_clear(nf_nmod_ctx_t ctx);
 
 int
 nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)
 {
   return ctx->separable;
 }
+
+
+void _nf_nmod_reduction_mat(nmod_mat_t mat, const nmod_poly_t modulus, ulong deg_bd);
 
 #ifdef __cplusplus
 }

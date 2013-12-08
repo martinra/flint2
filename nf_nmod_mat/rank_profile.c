@@ -26,7 +26,7 @@
 #include "nf_nmod_mat.h"
 
 slong
-nf_nmod_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx)
+nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx)
 {
   int i, n;
 
@@ -41,7 +41,7 @@ nf_nmod_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nf_nmod_mat_t
       c = _nf_nmod_mat_first_non_zero_entry(e, A, i, c, ctx);
       if (c == -1)
 	{
-	  rk_prof[i] = -1;
+	  rank_profile_entry(rk_prof, i) = -1;
 	  return i;
 	}
 
@@ -49,7 +49,7 @@ nf_nmod_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nf_nmod_mat_t
 	if (e[n] != 0)
 	  return -1;
 
-      rk_prof[i] = c;
+      rank_profile_entry(rk_prof, i) = c;
     }
 
   flint_free(e);

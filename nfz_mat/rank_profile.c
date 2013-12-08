@@ -26,7 +26,7 @@
 #include "nfz_mat.h"
 
 slong
-nfz_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const nfz_ctx_t ctx)
+nfz_mat_rank_profile(rank_profile_t rk_prof, const nfz_mat_t A, const nfz_ctx_t ctx)
 {
   int i;
   slong c;
@@ -43,11 +43,11 @@ nfz_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, cons
 
       if (c == -1)
 	{
-	  rk_prof[i] = -1;
+	  rank_profile_entry(rk_prof, i) = -1;
 	  return i;
 	}
 
-      rk_prof[i] = c;
+      rank_profile_entry(rk_prof, i) = c;
     }
 
   for (i = 0; i < A->r; ++i)

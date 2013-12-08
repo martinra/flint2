@@ -23,6 +23,7 @@
  
 ******************************************************************************/
 
+#include "rank_profile.h"
 #include "nfz_mat.h"
 #include "nf_nmod_mat.h"
 
@@ -39,8 +40,8 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
   nf_nmod_ctx_t ctx_nmod;
   nf_nmod_mat_t A_nmod;
 
-  nf_nmod_mat_rank_profile_t nfz_rk_prof;
-  nf_nmod_mat_rank_profile_t nmod_rk_prof;
+  rank_profile_t nfz_rk_prof;
+  rank_profile_t nmod_rk_prof;
 
   fmpz_t A_height_bd;
   fmpz_t B_height_bd;
@@ -51,8 +52,8 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 
   fmpz_init(p_prod);
 
-  nf_nmod_mat_init_rank_profile(nfz_rk_prof, A->r);
-  nf_nmod_mat_init_rank_profile(nmod_rk_prof, A->r);
+  rank_profile_init(nfz_rk_prof, A->r);
+  rank_profile_init(nmod_rk_prof, A->r);
 
   fmpz_init(A_height_bd);
   fmpz_init(B_height_bd);
@@ -61,8 +62,8 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 
   // note: this make the rank profile smaller than any other rank profile
   // todo: check with later implementation
-  nfz_rk_prof[0] = -1;
-  nmod_rk_prof[0] = -1;
+  rank_profile_entry(nfz_rk_prof, 0) = -1;
+  rank_profile_entry(nmod_rk_prof, 0) = -1;
 
   nfz_mat_height_bd(A_height_bd, A);
 
@@ -91,11 +92,11 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 	  nf_nmod_mat_clear(A_nmod, ctx_nmod);
 	  continue;
 	}
-      cmp = nf_nmod_mat_cmp_rank_profile(nmod_rk_prof, nfz_rk_prof, A->r);
+      cmp = rank_profile_cmp(nmod_rk_prof, nfz_rk_prof);
       if (cmp > 0)
 	{
 	  rank = nmod_rank;
-	  nf_nmod_mat_cp_rank_profile(nfz_rk_prof, nmod_rk_prof, A->r);
+	  rank_profile_set(nfz_rk_prof, nmod_rk_prof);
 
 	  fmpz_set_ui(p_prod, 1);
 	}
@@ -131,7 +132,7 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 	  slong rk = 0;	  
 	  for (int i = 0; i < A->r; ++i)
 	    {
-	      if (nfz_rk_prof[i] != -1)
+	      if (rank_profile_entry(nfz_rk_prof, i) != -1)
 		++rk;
 	      else
 		break;
@@ -141,8 +142,8 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 
 	  fmpz_clear(p_prod);
 
-	  nf_nmod_mat_clear_rank_profile(nfz_rk_prof);
-	  nf_nmod_mat_clear_rank_profile(nmod_rk_prof);
+	  rank_profile_clear(nfz_rk_prof);
+	  rank_profile_clear(nmod_rk_prof);
 
 	  fmpz_clear(A_height_bd);
 	  fmpz_clear(B_height_bd);

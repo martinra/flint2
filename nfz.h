@@ -37,6 +37,8 @@
 extern "C" {
 #endif
 
+/* Number field context ******************************************************/
+
 typedef struct
 {
   fmpz_poly_t modulus;
@@ -52,7 +54,6 @@ nfz_ctx_struct;
 
 typedef nfz_ctx_struct nfz_ctx_t[1];
 
-/* Memory managment  *********************************************************/
 
 void nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t, const char *var);
 void nfz_ctx_clear(nfz_ctx_t ctx);
@@ -89,9 +90,7 @@ void nfz_ctx_print(const nfz_ctx_t ctx)
 
 void nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong mod);
 
-
 void _nfz_reduction_mat(fmpz_mat_t mat, const fmpz_poly_t modulus, ulong deg_bd);
-
 
 #ifdef __cplusplus
 }
