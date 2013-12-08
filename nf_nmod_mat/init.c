@@ -26,15 +26,15 @@
 #include "nf_nmod_mat.h"
 
 void
-nf_nmod_mat_init(nfz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx)
+nf_nmod_mat_init(nf_nmod_mat_t mat, slong rows, slong cols, const nf_nmod_ctx_t ctx)
 {
   if ((rows) && (cols))
     {
       slong i;
 
-      mat->entries = (fmpz *) flint_calloc(rows * cols * (ctx->deg), sizeof(mp_limb_t));
-      mat->rows = (fmpz **) flint_calloc(rows * (ctx->deg), sizeof(mp_limb_t *));
-      mat->poly_coeffs = (fmpz ***) flint_calloc((ctx->deg), sizeof(mp_limb_t **));
+      mat->entries = (mp_limb_t *) flint_calloc(rows * cols * (ctx->deg), sizeof(mp_limb_t));
+      mat->rows = (mp_limb_t **) flint_calloc(rows * (ctx->deg), sizeof(mp_limb_t *));
+      mat->poly_coeffs = (mp_limb_t ***) flint_calloc((ctx->deg), sizeof(mp_limb_t **));
 
       for (i = 0; i < rows * (ctx->deg); ++i)
 	mat->rows[i] = mat->entries + i * cols;

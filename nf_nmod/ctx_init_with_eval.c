@@ -23,30 +23,36 @@ nnnn============================================================================
  
 ******************************************************************************/
 
+#include <string.h>
+#include "nmod_poly.h"
+#include "nmod_poly_factor.h"
 #include "nf_nmod.h"
+#include "nf_nmod_mat.h"
 
 void
-nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t ev_mat, const nmod_mat_t int_mat, const char *var)
+nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t evl_mat, const nmod_mat_t intrpl_mat, const char *var)
 {
+  nmod_t mod = modulus->mod;
+
   /* set the variable name */
   ctx->var = flint_malloc(strlen(var) + 1);
   strcpy(ctx->var, var);
 
   /* set the modulus */
-  nmod_poly_init_set(ctx->modulus, modulus);
+  nmod_poly_init(ctx->modulus, mod.n);
+  nmod_poly_set(ctx->modulus, modulus);
   ctx->deg = nmod_poly_degree(modulus);
   ctx->separable = nmod_poly_is_squarefree(modulus);
 
-  /* set the evaluation and interpolation matrices */
-  if (ev_mat)
-    nmod_mat_init_set(ctx->ev_mat, ev_mat);
-  else
-    ctx->ev_mat = NULL;
+  slong deg = ctx->deg;
+  ulong big_size = 2 * deg - 1;
 
-  if (int_mat)
-    nmod_mat_init_set(ctx->int_mat, int_mat);
-  else
-    ctx->int_mat = NULL;
+  /* set the evaluation and interpolation matrices */
+  if (big_size > mod.n)
+    {
+      nmod_mat_init_set(ctx->evl_mat, evl_mat);
+      nmod_mat_init_set(ctx->intrpl_mat, intrpl_mat);
+    }
 
   /* compute decomposition into copies of Fp and Fq */
   if (ctx->separable)
@@ -62,8 +68,8 @@ nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const n
       ctx->fp_moduli = (mp_limb_t *)flint_malloc(sizeof(mp_limb_t) * ctx->deg);
       ctx->fq_moduli = (nmod_poly_t *)flint_malloc(sizeof(nmod_poly_t *) * ctx->deg);
 
-      nmod_mat_init(ctx->decomp_mat, deg, deg);
-      nmod_mat_init(ctx->reconst_mat, deg, deg);
+      nmod_mat_init(ctx->decomp_mat, deg, deg, mod.n);
+      nmod_mat_init(ctx->recons_mat, deg, deg, mod.n);
 
       nmod_poly_factor_init(modulus_factored);
 
@@ -80,7 +86,8 @@ nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const n
 	    }
 	  else
 	    {
-	      nmod_poly_init_set(ctx->fq_moduli[ctx->nfq], modulus_factored->p + i);
+	      nmod_poly_init(ctx->fq_moduli[ctx->nfq]);
+	      nmod_poly_set(ctx->fq_moduli[ctx->nfq], modulus_factored->p + i);
 	      ++ctx->nfq;
 	    }
 	}
@@ -88,11 +95,10 @@ nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const n
       /* set the decomposition matrix */
       for (i = 0; i < ctx->nfp; ++i)
 	{
-	  // todo: we probably have to implement nmod_mat_set_entry_ui
 	  c = 1;
 	  for (j = 0; j < ctx->deg; ++j)
 	    {
-	      nmod_mat_set_entry_ui(ctx->decomp_mat, i, c);
+	      nmod_mat_entry(ctx->decomp_mat, i, j) = c;
 	  
 	      if (j + 1 < ctx->deg)
 		c = nmod_mul(c, ctx->fp_moduli[i], modulus->mod);
@@ -101,20 +107,19 @@ nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const n
 
       for (i = 0; i < ctx->nfq; ++i)
 	{
-	  /* todo: if ev_mat is defined, it might be faster to use
+	  /* todo: if evl_mat is defined, it might be faster to use
 	     evaluation in order to compute reductions */
 	  /* todo: implement nmod_mat_window_init and check (with
 	     flint-devel) whether implemnetation is correct */
-	  nmod_mat_window_init(decomp_wdw, ctx->decomp_mat, 0, ctx->nfp + i, ctx->deg, nmod_poly_degree(ctx->fq_moduli + i));
-	  _nf_nmod_reduction_mat(decomp_wdw, ctx->fq_moduli + i, ctx->deg);
+	  nmod_mat_window_init(decomp_wdw, ctx->decomp_mat, 0, ctx->nfp + i, ctx->deg, nmod_poly_degree(ctx->fq_moduli[i]));
+	  _nf_nmod_reduction_mat(decomp_wdw, ctx->fq_moduli[i], ctx->deg);
 	  nmod_mat_window_clear(decomp_wdw);
 	}
 
       /* set the reconstruction matrix */
-      nmod_mod_mat_inv(ctx->reconst_mat, ctx->decomp_mat);
-
+      nmod_mat_inv(ctx->recons_mat, ctx->decomp_mat);
 
       /* cleanup */
-      nmod_poly_factor_clean(modulus_factored);
+      nmod_poly_factor_clear(modulus_factored);
     }
 }

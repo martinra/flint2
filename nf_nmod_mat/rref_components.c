@@ -32,15 +32,15 @@ nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ct
 
   nmod_mat_t * fp_rrefs;
   fq_nmod_mat_t * fq_rrefs;
-  fq_ctx_nmod_t * fq_ctxs;
+  fq_nmod_ctx_t * fq_ctxs;
 
   fp_rrefs = (nmod_mat_t *) flint_malloc(sizeof(nmod_mat_t) * ctx->nfq);
   fq_rrefs = (fq_nmod_mat_t *) flint_malloc(sizeof(fq_nmod_mat_t) * ctx->nfq);
-  fq_ctxs = (fq_ctx_nmod_t *) flint_malloc(sizeof(fq_ctx_t) * ctx->nfq);
+  fq_ctxs = (fq_nmod_ctx_t *) flint_malloc(sizeof(fq_ctx_t) * ctx->nfq);
 
   // note: decompose into elements corresponding to simple
   // components of the algebra Fp[X] / p(x)
-  nf_nmod_mat_init_components(fp_rrefs, fq_rrefs, fq_ctxs, A->r, A->c, ctx);
+  _nf_nmod_mat_init_components(fp_rrefs, fq_rrefs, fq_ctxs, A, ctx);
   nf_nmod_mat_decompose_components(fp_rrefs, fq_rrefs, fq_ctxs, A, ctx);
 
   for (int i = 0; i < ctx->nfq; ++i)
@@ -52,7 +52,7 @@ nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ct
 	rank = -1;
     }
 
-  for (int i = 0; i < nmb_fqs; ++i)
+  for (int i = 0; i < ctx->nfq; ++i)
     {
       rank_comp = fq_nmod_mat_rref(fq_rrefs[i], fq_ctxs[i]);
       if (rank != rank_comp)
@@ -60,7 +60,7 @@ nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ct
     }
 
   nf_nmod_mat_reconstruct_components(B, fp_rrefs, fq_rrefs, fq_ctxs, ctx);
-  nf_nmod_mat_clear_components(fp_rrefs, fq_rrefs, fq_ctxs, ctx);
+  _nf_nmod_mat_clear_components(fp_rrefs, fq_rrefs, fq_ctxs, ctx);
 
   return rank;
 }

@@ -29,6 +29,7 @@ void
 _nf_nmod_mat_init_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_ctx_t * fq_ctxs, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx)
 {
   int i, j;
+  slong fq_deg;
   fmpz_poly_t fq_modulus;
 
 
@@ -37,19 +38,18 @@ _nf_nmod_mat_init_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq
   fq_ctxs = (fq_ctx_t *) flint_malloc(sizeof(fq_ctx_t) * ctx->nfq);
 
   for (i = 0; i < ctx->nfp; ++i)
-    nmod_mat_init(fp_comps[i], A->r, A->c, ctx->mod.n);
+    nmod_mat_init(fp_comps[i], A->r, A->c, ctx->modulus->mod.n);
 
   fmpz_poly_init(fq_modulus);
   for (i = 0; i < ctx->nfq; ++i)
     {
-      fq_deg = nmod_poly_degree(ctx->fq_comps[i]);
+      fq_deg = nmod_poly_degree(ctx->fq_moduli[i]);
       fmpz_poly_zero(fq_modulus);
       for (j = 0; j < fq_deg; ++i)
-	fmpz_poly_set_ui(fq_modulus, j, nmod_poly_get_coeff_ui(ctx->fq_comps[i], j));
+	fmpz_poly_set_coeff_ui(fq_modulus, j, nmod_poly_get_coeff_ui(ctx->fq_moduli[i], j));
 
       fq_ctx_init_modulus(fq_ctxs[i], fq_modulus, ctx->var);
       fq_nmod_mat_init(fq_comps[i], A->r, A->c, fq_ctxs[i]);
     }
   fmpz_poly_clear(fq_modulus);
 }
-

@@ -30,8 +30,6 @@ nf_nmod_mat_clear(nf_nmod_mat_t mat, const nf_nmod_ctx_t ctx)
 {
   if (mat->entries)
     {
-      slong i;
-
       flint_free(mat->entries);
       flint_free(mat->rows);
       flint_free(mat->poly_coeffs);

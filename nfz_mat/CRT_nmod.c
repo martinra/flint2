@@ -26,12 +26,20 @@
 #include "nfz_mat.h"
 
 void
-nfz_mat_get_nmod_mat(nf_nmod_mat_t B, const nfz_mat_t A, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const fmpz_t m1, const nf_nmod_mat_t in2, int sign, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
 {
-    slong i, j;
-    mp_limb_t m = ctx_nmod->modulus->mod.n;
+  int n, r, c;
+  fmpz_t fmpz_out;
 
-    for (i = 0; i < A->r * ctx->deg; ++i)
-      for (j = 0; j < A->c; ++j)
-	B->rows[i][j] = fmpz_fdiv_ui(A->rows[i] + j, m);
+  fmpz_init(fmpz_out);
+
+  for (n = 0; n < ctx->deg; ++n)
+    for (r = 0; r < out->r; ++r)
+      for (c = 0; c < out->c; ++c)
+	{
+	  fmpz_CRT_ui(fmpz_out, nfz_mat_entry(in1, n, r, c), m1, nf_nmod_mat_entry(in2, n, r, c), ctx_nmod->modulus->mod.n, sign);
+	  fmpz_set(nfz_mat_entry(out, n, r, c), fmpz_out);
+	}
+
+  fmpz_clear(fmpz_out);
 }

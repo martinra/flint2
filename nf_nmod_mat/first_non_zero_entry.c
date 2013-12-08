@@ -39,4 +39,6 @@ _nf_nmod_mat_first_non_zero_entry(mp_limb_t * entry, const nf_nmod_mat_t A, slon
 
 	  return i;
 	}
+
+  return A->r;
 }

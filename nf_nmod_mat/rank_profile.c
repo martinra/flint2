@@ -26,14 +26,14 @@
 #include "nf_nmod_mat.h"
 
 slong
-nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx)
+nf_nmod_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx)
 {
-  int i;
+  int i, n;
 
-  size_t c;
+  slong c;
   mp_limb_t * e;
 
-  e = (mp_limb_t *) flint_malloc(sizeof(mp_limb_t) * ctx->deg)
+  e = (mp_limb_t *) flint_malloc(sizeof(mp_limb_t) * ctx->deg);
 
   c = 0;
   for (i = 0; i < A->r; ++i)
@@ -45,12 +45,14 @@ nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf
 	  return i;
 	}
 
-      for (j = 1; j < ctx->deg; ++j)
-	if (e[j] != 0)
+      for (n = 1; n < ctx->deg; ++n)
+	if (e[n] != 0)
 	  return -1;
 
       rk_prof[i] = c;
     }
 
   flint_free(e);
+
+  return A->r;
 }

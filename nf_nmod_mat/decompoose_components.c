@@ -30,6 +30,8 @@ nf_nmod_mat_decompose_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps
 {
   int i, j, k, l, n;
 
+  slong fq_deg;
+
   nmod_mat_t coeff_mat;
   nmod_mat_t fq_comp_coeff_mat;
 
@@ -50,7 +52,7 @@ nf_nmod_mat_decompose_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps
       ++decomp_row;
     }
 
-  nmod_mat_init(fq_comp_coeff_mat, A->r, A->c, ctx->mod.n);
+  nmod_mat_init(fq_comp_coeff_mat, A->r, A->c, ctx->modulus->mod.n);
   for (i = 0; i < ctx->nfq; ++i)
     {
       fq_deg = nmod_poly_degree(ctx->fq_moduli[i]);
@@ -65,7 +67,7 @@ nf_nmod_mat_decompose_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps
 	    }
 	  for (k = 0; k < A->r; ++k)
 	    for (l = 0; l < A->c; ++l)
-	      fmpz_poly_set_coeff_ui(fq_nmod_mat_entry(fq_comp[i], k, l, fq_ctxs[i]), n, nmod_mat_entry(coeff_mat, k, l));
+	      nmod_poly_set_coeff_ui(fq_nmod_mat_entry(fq_comps[i], k, l), n, nmod_mat_entry(coeff_mat, k, l));
 
 	  ++decomp_row;
 	}

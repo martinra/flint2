@@ -26,9 +26,10 @@
 #include "nfz_mat.h"
 
 slong
-nfz_mat_rank_profile(nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const nf_ctx_t ctx)
+nfz_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const nfz_ctx_t ctx)
 {
-  size_t c;
+  int i;
+  slong c;
   fmpz_t * e;
 
   e = (fmpz_t *) flint_malloc(sizeof(fmpz_t) * A->r);
@@ -42,7 +43,7 @@ nfz_mat_rank_profile(nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const n
 
       if (c == -1)
 	{
-	  rk_prof[i] -1;
+	  rk_prof[i] = -1;
 	  return i;
 	}
 
@@ -52,4 +53,6 @@ nfz_mat_rank_profile(nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const n
   for (i = 0; i < A->r; ++i)
     fmpz_clear(e[i]);
   flint_free(e);
+
+  return A->r;
 }

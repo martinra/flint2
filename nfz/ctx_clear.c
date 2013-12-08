@@ -28,9 +28,8 @@
 void
 nfz_ctx_clear(nfz_ctx_t ctx)
 {
-  fmpz_mat_clear(ctx->ev_mat);
-  fmpz_mat_clear(ctx->int_mat);
-  fmpz_clear(ctx->int_den);
+  fmpz_mat_clear(ctx->evl_mat);
+  fmpz_mat_clear(ctx->intrpl_mat);
+  fmpz_clear(ctx->intrpl_den);
   flint_free(ctx->var);
 }
-

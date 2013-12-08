@@ -32,11 +32,13 @@ _nfz_mat_first_non_zero_entry(fmpz_t * entry, const nfz_mat_t A, slong r, slong 
 
   for (i = c; i < A->r; ++i)
     for (n = 0; n < ctx->deg; ++n)
-      if (!fmpz_is_zero(nfz_mat_entry(A, n, r, i))
+      if (!fmpz_is_zero(nfz_mat_entry(A, n, r, i)))
 	{
 	  for (n = 0; n < ctx->deg; ++n)
 	    fmpz_set(entry[n], nfz_mat_entry(A, n, r, i));
 
 	  return i;
 	}
+
+  return -1;
 }

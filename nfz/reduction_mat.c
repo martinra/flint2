@@ -23,28 +23,41 @@
  
 ******************************************************************************/
 
+#include "fmpz_poly.h"
 #include "nfz.h"
 
 void
-_nfz_reduction_mat(fmpz_mat_t mat, fmpz_poly_t modulus, ulong deg_bd)
+_nfz_reduction_mat(fmpz_mat_t mat, const fmpz_poly_t modulus, ulong deg_bd)
 {
+  ulong j, n;
+  ulong deg;
+  fmpz_t c;
+
+  fmpz_init(c);
+  deg = fmpz_poly_degree(modulus);
+
   /* we assume that the modulus is monic */
 
-  for (i = 0; i < deg && i < deg_bd; ++i)
+  for (n = 0; n < deg && n < deg_bd; ++n)
     {
-      for (j = 0; j < i; ++j)
-	fmpz_set_ui(fmpz_mat_entry(mat, i, j), 0);
-      fmpz_set_ui(fmpz_mat_entry(mat, i, i), 1);
-      for (j = i + 1; j < deg; ++j)
-	fmpz_set_ui(fmpz_mat_entry(mat, i, j), 0);
+      for (j = 0; j < n; ++j)
+	fmpz_set_ui(fmpz_mat_entry(mat, n, j), 0);
+      fmpz_set_ui(fmpz_mat_entry(mat, n, n), 1);
+      for (j = n + 1; j < deg; ++j)
+	fmpz_set_ui(fmpz_mat_entry(mat, n, j), 0);
     }
 
-  for (i = deg; i < deg_bd; ++i)
+  for (n = deg; n < deg_bd; ++n)
     {
       for (j = 0; j < deg; ++j)
-	fmpz_set_ui(fmpz_mat_entry(mat, i, j), 0);
+	fmpz_set_ui(fmpz_mat_entry(mat, n, j), 0);
 
       for (j = 0; j < deg; ++j)
-	_fmpz_vec_scalar_submul_fmpz(mat->r[i], mat->r[i - deg + j], deg, fmpz_poly_get_coeff(modulus, j));
+	{
+	  fmpz_poly_get_coeff_fmpz(c, modulus, j);
+	  _fmpz_vec_scalar_submul_fmpz(mat->rows[n], mat->rows[n - deg + j], deg, c);
+	}
     }
+
+  fmpz_clear(c);
 }

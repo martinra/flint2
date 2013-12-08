@@ -23,8 +23,10 @@
  
 ******************************************************************************/
 
+#include "nf_nmod_mat.h"
+
 void
-nf_nmod_mat_init_rank_profile(rank_profile_t rk_prof, slong r)
+nf_nmod_mat_init_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, slong r)
 {
-  rk_prof = (size_t *) flint_malloc(sizeof(size_t) * r);
+  rk_prof = (nf_nmod_mat_rank_profile_t) flint_malloc(sizeof(slong) * r);
 }

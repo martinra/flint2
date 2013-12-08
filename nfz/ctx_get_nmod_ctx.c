@@ -28,38 +28,40 @@
 void
 nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong n)
 {
-  slong deg = nmod_poly_degree(modulus);
-  slong big_size = 2 * deg - 1;
+  slong deg = fmpz_poly_degree(ctx->modulus);
+  ulong big_size = 2 * deg - 1;
 
-  modulus_nmod modulus_nmod;
+  fmpz_t det;
+
+  nmod_poly_t modulus_nmod;
   nmod_t mod;
 
 
   fmpz_poly_get_nmod_poly(modulus_nmod, ctx->modulus);
   mod = modulus_nmod->mod;
 
-  fmpz_mat_det(det, ctx->ev_mat);
+  fmpz_mat_det(det, ctx->evl_mat);
   fmpz_mod_ui(det, det, n);
 
   if (!fmpz_is_zero(det))
     {
-      nmod_mat_t ev_mat;
-      nmod_mat_t int_mat;
-      mp_limb_t int_den;
+      nmod_mat_t evl_mat;
+      nmod_mat_t intrpl_mat;
+      mp_limb_t intrpl_den;
 
-      nmod_mat_init(ev_mat, ctx->deg, ctx->deg, n);
-      nmod_mat_init(int_mat, ctx->deg, ctx->deg, n);
+      nmod_mat_init(evl_mat, ctx->deg, ctx->deg, n);
+      nmod_mat_init(intrpl_mat, ctx->deg, ctx->deg, n);
 
-      fmpz_mat_get_nmod_mat(ev_mat, ctx->ev_mat);
-      fmpz_mat_get_nmod_mat(int_mat, ctx->int_mat);
-      int_den = fmpz_fdiv_ui(ctx->int_den, n);
-      int_den = nmod_inv(int_den, mod);
-      nmod_mat_scalar_mul(int_mat, int_mat, int_den);
+      fmpz_mat_get_nmod_mat(evl_mat, ctx->evl_mat);
+      fmpz_mat_get_nmod_mat(intrpl_mat, ctx->intrpl_mat);
+      intrpl_den = fmpz_fdiv_ui(ctx->intrpl_den, n);
+      intrpl_den = nmod_inv(intrpl_den, mod);
+      nmod_mat_scalar_mul(intrpl_mat, intrpl_mat, intrpl_den);
 
-      _nf_nmod_ctx_init_with_eval(ctx_nmod, modulus_nmod, ev_mat, int_mat, ctx->var);
+      _nf_nmod_ctx_init_with_eval(ctx_nmod, modulus_nmod, evl_mat, intrpl_mat, ctx->var);
 
-      nmod_mat_clear(ev_mat);
-      nmod_mat_clear(int_mat);
+      nmod_mat_clear(evl_mat);
+      nmod_mat_clear(intrpl_mat);
     }
   else if (big_size <= n)
     nf_nmod_ctx_init(ctx_nmod, modulus_nmod, ctx->var);

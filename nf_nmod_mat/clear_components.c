@@ -23,10 +23,10 @@
  
 ******************************************************************************/
 
-#include "nf_mod_mat.h"
+#include "nf_nmod_mat.h"
 
 void
-_nf_nmod_mat_clear_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_ctx_t * fq_ctxs, const nf_nmod_ctx_t ctx)
+_nf_nmod_mat_clear_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_nmod_ctx_t * fq_ctxs, const nf_nmod_ctx_t ctx)
 {
   int i;
 
@@ -35,8 +35,8 @@ _nf_nmod_mat_clear_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, f
 
   for (i = 0; i < ctx->nfq; ++i)
     {
-      fq_nmod_mat_clear(fq_comps[i]);
-      fq_ctx_clear(fq_ctxs[i]);
+      fq_nmod_mat_clear(fq_comps[i], fq_ctxs[i]);
+      fq_nmod_ctx_clear(fq_ctxs[i]);
     }
 
   flint_free(fp_comps);

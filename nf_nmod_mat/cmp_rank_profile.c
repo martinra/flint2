@@ -40,12 +40,3 @@ nf_nmod_mat_cmp_rank_profile(const nf_nmod_mat_rank_profile_t rk_prof1, const nf
 
   return 0;
 }
-
-
-
-
-
-
-
-
-

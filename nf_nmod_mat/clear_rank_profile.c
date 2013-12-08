@@ -23,8 +23,10 @@
  
 ******************************************************************************/
 
+#include "nf_nmod_mat.h"
+
 void
-nf_nmod_mat_clear_rank_profile(rank_profile_t rk_prof, slong r)
+nf_nmod_mat_clear_rank_profile(nf_nmod_mat_rank_profile_t rk_prof)
 {
   flint_free(rk_prof);
 }

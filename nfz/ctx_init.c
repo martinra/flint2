@@ -23,6 +23,8 @@
  
 ******************************************************************************/
 
+#include <string.h>
+#include "fmpz_poly.h"
 #include "nfz.h"
 
 void
@@ -37,22 +39,22 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
 
   fmpz_t c;
 
-  fmpz_mat_t ev_big_mat;
-  fmpz_mat_t int_big_mat;
-  fmpz_mat_t int_big_red_mat;
+  fmpz_mat_t evl_big_mat;
+  fmpz_mat_t intrpl_big_mat;
+  fmpz_mat_t intrpl_big_red_mat;
   fmpz_mat_t red_mat;
 
   slong * rk_prof;
 
-  fmpz_mat_init(ctx->ev_mat, deg, deg);
-  fmpz_mat_init(ctx_>int_mat, deg, deg);
-  fmpz_init(ctx->int_den);
+  fmpz_mat_init(ctx->evl_mat, deg, deg);
+  fmpz_mat_init(ctx->intrpl_mat, deg, deg);
+  fmpz_init(ctx->intrpl_den);
 
   fmpz_init(c);
 
-  fmpz_mat_init(ev_big_mat, big_size, big_size);
-  fmpz_mat_init(int_big_mat, big_size, big_size);
-  fmpz_mat_init(int_big_red_mat, deg, big_size);
+  fmpz_mat_init(evl_big_mat, big_size, big_size);
+  fmpz_mat_init(intrpl_big_mat, big_size, big_size);
+  fmpz_mat_init(intrpl_big_red_mat, deg, big_size);
   fmpz_mat_init(red_mat, big_size, deg);
 
   rk_prof = flint_malloc(sizeof(slong) * deg);
@@ -64,30 +66,31 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
       fmpz_set_ui(c, 1);
       for (j = 0; j < big_size; ++j)
 	{
-	  fmpz_set(fmpz_mat_entry(ev_mat, i, j), c);
+	  fmpz_set(fmpz_mat_entry(evl_big_mat, i, j), c);
 
 	  if (j + 1 < big_size)
 	    fmpz_mul_si(c, c, i - deg + 1);
 	}
     }
-  fmpz_mat_inv(int_big_mat, int_den, ev_big_mat);
+  fmpz_mat_inv(intrpl_big_mat, ctx->intrpl_den, evl_big_mat);
 
   _nfz_reduction_mat(red_mat, modulus, big_size);
   /* The result is not the reduction matrix, but is stored in the same
    * variable to save space */
-  fmpz_mat_mul(red_mat, int_big_mat, red_mat);
-  fmpz_mat_transpose(int_big_red_mat, red_mat);
+  fmpz_mat_mul(red_mat, intrpl_big_mat, red_mat);
+  fmpz_mat_transpose(intrpl_big_red_mat, red_mat);
 
   /* c is used as a temporary variable */
-  fmpz_mat_fflu(int_big_red_mat, c, NULL, int_big_red_mat, 0);
-  fmpz_mat_rank_profile(rk_prof, int_big_red_mat);
+  fmpz_mat_fflu(intrpl_big_red_mat, c, NULL, intrpl_big_red_mat, 0);
+  /* todo: implement fmpz_mat_rank_profile */
+  fmpz_mat_rank_profile(rk_prof, intrpl_big_red_mat);
 
   /* set the evaluation and interpolation matrices */
   for (i = 0; i < deg; ++i)
     for (j = 0; j < deg; ++j)
       {
-	fmpz_set(fmpz_mat_entry(ctx->ev_mat, i, j), fmpz_mat_entry(ev_mat_big, i, rk_prof[j]));
-	fmpz_set(fmpz_mat_entry(ctx->int_mat, i, j), fmpz_mat(int_mat, rk_prof[i], j));
+	fmpz_set(fmpz_mat_entry(ctx->evl_mat, i, j), fmpz_mat_entry(evl_big_mat, i, rk_prof[j]));
+	fmpz_set(fmpz_mat_entry(ctx->intrpl_mat, i, j), fmpz_mat_entry(intrpl_big_mat, rk_prof[i], j));
       }
 
   /* set the variable name */
@@ -95,15 +98,16 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
   strcpy(ctx->var, var);
 
   /* set the modulus */
-  fmpz_poly_init_set(ctx->modulus, modulus);
+  fmpz_poly_init(ctx->modulus);
+  fmpz_poly_set(ctx->modulus, modulus);
+
   ctx->deg = deg;
 
   fmpz_clear(c);
-  fmpz_mat_clear(ev_big_mat);
-  fmpz_mat_clear(int_big_mat);
-  fmpz_mat_clear(int_big_red_mat);
+  fmpz_mat_clear(evl_big_mat);
+  fmpz_mat_clear(intrpl_big_mat);
+  fmpz_mat_clear(intrpl_big_red_mat);
   fmpz_mat_clear(red_mat);
   
   flint_free(rk_prof);
 }
-

@@ -26,7 +26,7 @@
 #include "nfz_mat.h"
 
 void
-nfz_mat_init(fmpz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx)
+nfz_mat_init(nfz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx)
 {
   if ((rows) && (cols))
     {
@@ -47,4 +47,3 @@ nfz_mat_init(fmpz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx)
   mat->r = rows;
   mat->c = cols;
 }
-

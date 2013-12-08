@@ -42,9 +42,9 @@ typedef struct
   fmpz_poly_t modulus;
   slong deg;
 
-  fmpz_mat_t ev_mat;  
-  fmpz_mat_t int_mat;
-  fmpz_t int_den;
+  fmpz_mat_t evl_mat;  
+  fmpz_mat_t intrpl_mat;
+  fmpz_t intrpl_den;
 
   char * var;
 }
@@ -90,7 +90,7 @@ void nfz_ctx_print(const nfz_ctx_t ctx)
 void nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong mod);
 
 
-void _nfz_reduction_mat(fmpz_mat_t mat, fmpz_poly_t modulus, ulong deg_bd);
+void _nfz_reduction_mat(fmpz_mat_t mat, const fmpz_poly_t modulus, ulong deg_bd);
 
 
 #ifdef __cplusplus

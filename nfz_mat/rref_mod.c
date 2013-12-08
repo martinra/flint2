@@ -26,25 +26,16 @@
 #include "ulong_extras.h"
 #include "nfz_mat.h"
 
-int next_prime(const int);
+int next_prime(const mp_limb_t n);
 
 slong
 nfz_mat_rref_mod(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx)
 {
-  return _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, &next_prime)
+  return _nfz_mat_rref_mod_prime_generator(B, den, A, ctx, &next_prime);
 }
 
 // todo: should we declare this as static?
-int next_prime(const ulong n)
+int next_prime(const mp_limb_t n)
 {
   return n_nextprime(n, 1);
 }
-
-
-
-
-
-
-
-
-

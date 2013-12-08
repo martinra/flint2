@@ -32,5 +32,5 @@ nf_nmod_mat_init_coeff_mat(nmod_mat_t B, const nf_nmod_mat_t A, slong n, const n
   B->r = A->r;
   B->c = A->c;
   B->rows = A->poly_coeffs[n];
-  B->mod = ctx->mod;
+  B->mod = ctx->modulus->mod;
 }

@@ -47,10 +47,10 @@ typedef struct
   nmod_poly_t * fq_moduli;
 
   nmod_mat_t decomp_mat;
-  nmod_mat_t reconst_mat;
+  nmod_mat_t recons_mat;
 
-  nmod_mat_t ev_mat;
-  nmod_mat_t int_mat;
+  nmod_mat_t evl_mat;
+  nmod_mat_t intrpl_mat;
 
   char * var;
 }
@@ -63,6 +63,7 @@ typedef nf_nmod_ctx_struct nf_nmod_ctx_t[1];
 void nf_nmod_ctx_init(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const char *var);
 void _nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t ev_mat, const nmod_mat_t int_mat, const char *var);
 void nf_nmod_ctx_clear(nf_nmod_ctx_t ctx);
+
 
 int
 nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)

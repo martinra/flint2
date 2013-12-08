@@ -27,7 +27,7 @@
 #include "nf_nmod_mat.h"
 
 slong
-_nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, int (*next_prime)(const int))
+_nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, int (*next_prime)(const mp_limb_t))
 {
   int cmp;
 
@@ -129,7 +129,7 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
       if (fmpz_cmp(p_prod, height_bd) >= 0)
 	{
 	  slong rk = 0;	  
-	  for (int i = 0; i < c; ++i)
+	  for (int i = 0; i < A->r; ++i)
 	    {
 	      if (nfz_rk_prof[i] != -1)
 		++rk;

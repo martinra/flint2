@@ -26,41 +26,47 @@
 #include "nf_nmod_mat.h"
 
 void
-nf_nmod_mat_reconstruct_components(nf_nmod_mat_t A, const nmod_mat_t * fp_comps, const fq_nmod_mat_t * fq_comps, const fq_ctx_t fq_ctx, const nf_nmod_ctx_t ctx)
+nf_nmod_mat_reconstruct_components(nf_nmod_mat_t A, const nmod_mat_t * fp_comps, const fq_nmod_mat_t * fq_comps, const fq_ctx_t * fq_ctxs, const nf_nmod_ctx_t ctx)
 {
   int i, j, k, l, n;
+  slong recons_mat_row;
+  slong fq_deg;
+
   nmod_mat_t coeff_mat;
   nmod_mat_t fq_comp_coeff_mat;
 
-  nf_nmod_mat_zero(B);
+
+  nf_nmod_mat_zero(A);
 
   for (i = 0; i < ctx->nfp; ++i)
     {
       for (n = 0; n < ctx->deg; ++n)
 	{
 	  nf_nmod_mat_init_coeff_mat(coeff_mat, A, n, ctx);
-	  nmod_mat_add_scalar_mul(coeff_mat, coeff_mat, nmod_mat_entry(ctx->reconst_mat, i, n), fp_comps[i]);
-	  nf_nmod_mat_clear_coeff_mat(coeff_mat);
+	  /* todo: implement nmod_mat_add_scalar_mul */
+	  nmod_mat_add_scalar_mul(coeff_mat, coeff_mat, nmod_mat_entry(ctx->recons_mat, i, n), fp_comps[i]);
+	  nf_nmod_mat_clear_coeff_mat(coeff_mat, ctx);
 	}
     }
 
-  reconst_mat_row = ctx->nfp;
-  nmod_mat_init(fq_comp_coeff_mat, A->r, A->c, ctx->mod.n);
+  recons_mat_row = ctx->nfp;
+  nmod_mat_init(fq_comp_coeff_mat, A->r, A->c, ctx->modulus->mod.n);
   for (i = 0; i < ctx->nfp; ++i)
-    for (j = 0; j < fq_ctx[i]->deg; ++j)
+    fq_deg = fmpz_poly_degree(fq_ctxs[i]->modulus);
+    for (j = 0; j < fq_deg; ++j)
       {
-	nmod_mat_init(fq_comp_coeff_mat, A->r, A->c, ctx->mod.n);
+	nmod_mat_init(fq_comp_coeff_mat, A->r, A->c, ctx->modulus->mod.n);
 	for (k = 0; k < A->r; ++k)
 	  for (l = 0; l < A->c; ++l)
-	    nmod_mat_set_entry_ui(fq_comp_coeff_mat, k, l, fmpz_poly_get_coeff_ui(fq_nmod_entry(fq_comps[i], k, l), j));
+	    nmod_mat_entry(fq_comp_coeff_mat, k, l) = nmod_poly_get_coeff_ui(fq_nmod_mat_entry(fq_comps[i], k, l), j);
 
 	for (n = 0; n < ctx->deg; ++n)
 	  {
 	    nf_nmod_mat_init_coeff_mat(coeff_mat, A, n, ctx);
-	    nmod_mat_add_scalar_mul(coeff_mat, coeff_mat, nmod_mat_entry(ctx->reconst_mat,  reconst_mat_row, n), fq_comp_coeff_mat);
-	    nf_nmod_mat_clear_coeff_mat(coeff_mat);
+	    nmod_mat_add_scalar_mul(coeff_mat, coeff_mat, nmod_mat_entry(ctx->recons_mat,  recons_mat_row, n), fq_comp_coeff_mat);
+	    nf_nmod_mat_clear_coeff_mat(coeff_mat, ctx);
 	  }
-	++reconst_mat_row;
+	++recons_mat_row;
       }
   nmod_mat_clear(fq_comp_coeff_mat);
 }
