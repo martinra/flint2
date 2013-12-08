@@ -65,8 +65,7 @@ void nf_nmod_mat_init_coeff_mat(nmod_mat_t B, const nf_nmod_mat_t A, slong n, co
 void nf_nmod_mat_clear_coeff_mat(nmod_mat_t B, const nf_nmod_ctx_t ctx);
 
 
-/* todo: implement nf_nmod_mat_zero */
-void nf_nmod_mat_zero(nf_nmod_mat_t A);
+void nf_nmod_mat_zero(nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
 
 
 void nf_nmod_mat_decompose_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_nmod_ctx_t * fq_ctxs, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
