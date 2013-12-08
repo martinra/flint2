@@ -30,6 +30,7 @@
 #include "flint.h"
 #include "fmpz_poly.h"
 #include "fmpz_mat.h"
+#include "nf_nmod.h"
 #include "nf_nmod_mat.h"
 
 #ifdef __cplusplus
@@ -86,7 +87,7 @@ void nfz_ctx_print(const nfz_ctx_t ctx)
     nfz_ctx_fprint(stdout, ctx);
 }
 
-  void nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong mod);
+void nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong mod);
 
 
 void _nfz_reduction_mat(fmpz_mat_t mat, fmpz_poly_t modulus, ulong deg_bd);

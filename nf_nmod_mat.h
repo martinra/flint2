@@ -23,11 +23,15 @@
  
 ******************************************************************************/
 
-#ifndef NF_NMOD_H
-#define NF_NMOD_H
+#ifndef NF_NMOD_MAT_H
+#define NF_NMOD_MAT_H
 
 #include "ulong_extras.h"
 #include "flint.h"
+#include "nmod_poly.h"
+#include "fq.h"
+#include "fq_nmod_mat.h"
+#include "nf_nmod.h"
 
 typedef struct
 {
@@ -67,13 +71,16 @@ void nf_nmod_mat_reconstruct_components(nf_nmod_mat_t A, const nmod_mat_t * fp_c
 void nf_nmod_mat_init_coeff_mat(nmod_mat_t B, const nf_nmod_mat_t A, slong n, const nf_nmod_ctx_t ctx);
 void nf_nmod_mat_clear_coeff_mat(nmod_mat_t B, const nf_nmod_ctx_t ctx);
 
-slong nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx ctx);
+typedef slong (* nf_nmod_mat_rank_profile_t);
 
-void nf_nmod_mat_init_rank_profile(rank_profile_t rk_prof, slong r);
+slong nf_nmod_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
 
-void nf_nmod_mat_clear_rank_profile(rank_profile_t rk_prof);
+void nf_nmod_mat_init_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, slong r);
 
-typedef (size_t *) nf_nmod_mat_rank_profile_t;
+void nf_nmod_mat_clear_rank_profile(nf_nmod_mat_rank_profile_t rk_prof);
+
+int nf_nmod_mat_cmp_rank_profile(const nf_nmod_mat_rank_profile_t rk_prof1, const nf_nmod_mat_rank_profile_t rk_prof2, slong r);
+
 
 slong _nf_nmod_mat_first_non_zero_entry(mp_limb_t * entry, const nf_nmod_mat_t A, slong r, slong c, const nf_nmod_ctx_t ctx);
 
@@ -84,4 +91,6 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

@@ -83,7 +83,7 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 	  nf_nmod_mat_clear(A_nmod, ctx_nmod);
 	  continue;
 	}
-      cmp = _flint_cmp_rk_prof(nmod_rk_prof, nfz_rk_prof);
+      cmp = nf_nmod_mat_cmp_rank_profile(nmod_rk_prof, nfz_rk_prof, A->r);
       if (cmp > 0)
 	{
 	  _flint_cp_rk_prof(nfz_rk_prof, nmod_comp_rk_prof);
