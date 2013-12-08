@@ -54,7 +54,7 @@ void nf_nmod_mat_init_set(nf_nmod_mat_t mat, const nf_nmod_mat_t src, const nf_n
 void nf_nmod_mat_set(nf_nmod_mat_t mat1, const nf_nmod_mat_t mat2, const nf_nmod_ctx_t ctx);
 void nf_nmod_mat_clear(nf_nmod_mat_t mat, const nf_nmod_ctx_t ctx);
 
-void nf_nmod_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
 
 
 void _nf_nmod_reduction_mat(nmod_mat_t mat, nmod_poly_t modulus, ulong deg_bd);
@@ -81,6 +81,8 @@ void nf_nmod_mat_clear_rank_profile(nf_nmod_mat_rank_profile_t rk_prof);
 
 int nf_nmod_mat_cmp_rank_profile(const nf_nmod_mat_rank_profile_t rk_prof1, const nf_nmod_mat_rank_profile_t rk_prof2, slong r);
 
+/* todo: implement */
+void nf_nmod_mat_cp_rank_profile(nf_nmod_mat_rank_profile_t rk_prof1, const nf_nmod_mat_rank_profile_t rk_prof2, slong r);
 
 slong _nf_nmod_mat_first_non_zero_entry(mp_limb_t * entry, const nf_nmod_mat_t A, slong r, slong c, const nf_nmod_ctx_t ctx);
 

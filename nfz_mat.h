@@ -29,6 +29,7 @@
 #include "ulong_extras.h"
 #include "flint.h"
 #include "fmpq_mat.h"
+#include "nf_nmod_mat.h"
 #include "nfz.h"
 
 #ifdef __cplusplus
@@ -63,9 +64,15 @@ slong _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t
 
 void nfz_mat_get_nmod_mat(nf_nmod_mat_t B, const nfz_mat_t A, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
-slong nfz_mat_rank_profile(nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const nf_ctx_t ctx);
+slong nfz_mat_rank_profile(nf_nmod_mat_rank_profile_t rk_prof, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 slong _nfz_mat_first_non_zero_entry(fmpz_t * entry, const nfz_mat_t A, slong r, slong c, const nfz_ctx_t ctx);
+
+/*todo: implement */
+void nfz_mat_height_bd(fmpz_t bound, const nfz_mat_t A);
+
+/*todo: implement */
+  void nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const fmpz_t m1, const nf_nmod_mat_t in2, int sign, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
 #ifdef __cplusplus
 }
