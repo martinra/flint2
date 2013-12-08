@@ -28,6 +28,9 @@
 
 #include "ulong_extras.h"
 #include "flint.h"
+#include "fmpz_poly.h"
+#include "fmpz_mat.h"
+#include "nf_nmod_mat.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,7 +56,7 @@ typedef nfz_ctx_struct nfz_ctx_t[1];
 void nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t, const char *var);
 void nfz_ctx_clear(nfz_ctx_t ctx);
 
-statix __inline__
+static __inline__
 slong nfz_ctx_degree(const nfz_ctx_t ctx)
 {
   return fmpz_poly_degree(ctx->modulus);
@@ -68,7 +71,7 @@ int nfz_ctx_fprint(FILE * file, const nfz_ctx_t ctx)
     if (r <= 0)
 	return r;
 
-    r = fmpz_mod_poly_fprint_pretty(file, ctx->modulus, ctx->var);
+    r = fmpz_poly_fprint_pretty(file, ctx->modulus, ctx->var);
     if (r <= 0)
 	return r;
 

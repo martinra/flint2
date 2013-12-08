@@ -28,6 +28,12 @@
 
 #include "ulong_extras.h"
 #include "flint.h"
+#include "nmod_poly.h"
+#include "nmod_mat.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct
 {
@@ -65,11 +71,7 @@ nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)
 }
 
 #ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifdef __cplusplus
 }
 #endif
 
-
+#endif
