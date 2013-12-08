@@ -23,37 +23,14 @@
  
 ******************************************************************************/
 
-#ifndef RANK_PROFILE_H
-#define RANK_PROFILE_H
+#include "rank_profile.h"
 
-#include "ulong_extras.h"
-#include "flint.h"
-
-#ifdef __cplusplus
- extern "C" {
-#endif
-
-typedef struct
+void
+rank_profile_set(rank_profile_t rk_prof1, const rank_profile_t rk_prof2)
 {
-  slong * profile;
-  slong length;
+  slong i;
+
+  rk_prof1->length = rk_prof2->length;
+  for (i = 0; i < rk_prof1->length; ++i)
+    rank_profile_entry(rk_prof1, i) = rank_profile_entry(rk_prof2, i);
 }
-rank_profile_struct;
-
-typedef rank_profile_struct rank_profile_t[1];
-
-
-#define rank_profile_entry(rk_prof, i) (rk_prof->profile[(i)])
-
-void rank_profile_init(rank_profile_t rk_prof, slong len);
-void rank_profile_clear(rank_profile_t rk_prof);
-
-void rank_profile_set(rank_profile_t rk_prof1, const rank_profile_t rk_prof2);
-
-int rank_profile_cmp(const rank_profile_t rk_prof1, const rank_profile_t rk_prof2);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
