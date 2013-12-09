@@ -60,12 +60,15 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
   fmpz_init(height_bd);
 
 
-  // note: this make the rank profile smaller than any other rank profile
-  // todo: check with later implementation
   rank_profile_entry(nfz_rk_prof, 0) = -1;
   rank_profile_entry(nmod_rk_prof, 0) = -1;
 
-  nfz_mat_height_bd(A_height_bd, A);
+  /* todo: improve this.  the height bound here is (coeff bound reduction matrix)
+     (coeff bound A) (coeff bound den * B) (A->c) */
+  nfz_mat_coeff_bound(A_height_bd, A, ctx);
+  _nfz_reduction_coeff_bound(height_bd, ctx->modulus, 2 * ctx->deg - 1);
+  fmpz_mul(A_height_bd, A_height_bd, height_bd);
+  fmpz_mul_ui(A_height_bd, A_height_bd, A->c);
 
   p = next_prime(1 << 27);
   while (true)
@@ -122,11 +125,10 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
 	}
       
       nfq_mat_get_nfz_mat_matwise(B, den, B_nfq);
-      nfz_mat_height_bd(B_height_bd, B);
+      nfz_mat_coeff_bound(B_height_bd, B, ctx);
       fmpz_mul(B_height_bd, B_height_bd, den);
 
       fmpz_mul(height_bd, A_height_bd, B_height_bd);
-      fmpz_mul_ui(height_bd, height_bd, A->c);
       if (fmpz_cmp(p_prod, height_bd) >= 0)
 	{
 	  slong rk = 0;	  

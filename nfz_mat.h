@@ -77,8 +77,7 @@ void nfz_mat_get_nmod_mat(nf_nmod_mat_t B, const nfz_mat_t A, const nf_nmod_ctx_
 void nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const fmpz_t m1, const nf_nmod_mat_t in2, int sign, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
 
-/*todo: implement */
-void nfz_mat_height_bd(fmpz_t bound, const nfz_mat_t A);
+void nfz_mat_coeff_bound(fmpz_t bound, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 #ifdef __cplusplus
 }

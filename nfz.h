@@ -92,9 +92,10 @@ void nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong mod
 
 void _nfz_reduction_mat(fmpz_mat_t mat, const fmpz_poly_t modulus, ulong deg_bd);
 
+void _nfz_reduction_coeff_bound(fmpz_t bound, const fmpz_poly_t modulus, ulong deg_bd);
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-
