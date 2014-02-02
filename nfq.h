@@ -23,27 +23,28 @@
  
 ******************************************************************************/
 
-#ifndef NFQ_MAT_H
-#define NFQ_MAT_H
+#ifndef NFQ_H
+#define NFQ_H
 
 #include "ulong_extras.h"
 #include "flint.h"
-#include "nfq.h"
-#include "rank_profile.h"
+#include "fmpz.h"
+#include "nfz.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C" {}
 #endif
-
 typedef struct
 {
-  nfq * entries;
-  slong r;
-  slong c;
-  nfq ** rows;
-} nfq_mat_struct;
+  nfz num;
+  fmpz den;
+} nfq;
 
-typedef nfq_mat_struct nfq_mat_t[1];
+typedef nfq nfq_t[1];
+
+#define nfq_numref(__x) (&(__x)->num)
+#define nfq_denref(__y) (&(__y)->den)
+
 
 #ifdef __cplusplus
 }
