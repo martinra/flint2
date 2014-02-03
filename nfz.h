@@ -94,6 +94,50 @@ void _nfz_reduction_mat(fmpz_mat_t mat, const fmpz_poly_t modulus, ulong deg_bd)
 
 void _nfz_reduction_coeff_bound(fmpz_t bound, const fmpz_poly_t modulus, ulong deg_bd);
 
+/* Number field elements ******************************************************/
+
+/* We implement elements of number fields (defined by monic
+ * polynomials, say p) whose representation as a polynomial mod p has
+ * integral coefficients. (This is, of cause, not the maximal order,
+ * and depends on p).
+ */
+
+typedef fmpz_poly_struct nfz;
+
+typedef nfz nfz_t[1];
+
+/* Memory managment **************************************************/
+
+static __inline__ void nfz_init(nfz_t f, const nfz_ctx_t ctx)
+{
+  fmpz_poly_init(f);
+};
+
+static __inline__ void nfz_init2(nfz_t f, const nfz_ctx_t ctx)
+{
+    fmpz_poly_init2(f, nfz_ctx_degree(ctx));
+};
+
+static __inline__ void nfz_clear(nfz_t f, const nfz_ctx_t ctx)
+{
+    fmpz_poly_clear(f);
+};
+
+static __inline__ void nfz_reduce(nfz_t f, const nfz_ctx_t ctx)
+{
+  long deg = fmpz_poly_degree(f);
+  if (deg > ctx->deg) return;
+
+  fmpz * coeffs = f->coeffs;
+
+  for (long i = deg - 1; i >= ctx->deg; --i) {
+    for (long k = ctx->deg - 1; k >= 0; --k)
+      fmpz_submul(coeffs + i - (ctx->deg - k), coeffs + i, ctx->modulus->coeffs + k);
+    fmpz_zero(coeffs + i);
+  }
+};
+
+
 #ifdef __cplusplus
 }
 #endif
