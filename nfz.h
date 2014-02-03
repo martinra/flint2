@@ -44,6 +44,7 @@ typedef struct
   fmpz_poly_t modulus;
   slong deg;
 
+  // evaluation and interpolation matrices act on columns
   fmpz_mat_t evl_mat;  
   fmpz_mat_t intrpl_mat;
   fmpz_t intrpl_den;
