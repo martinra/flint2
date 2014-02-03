@@ -137,9 +137,70 @@ static __inline__ void nfz_reduce(nfz_t f, const nfz_ctx_t ctx)
   }
 };
 
+static __inline__ void nfz_add(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
+{
+  fmpz_poly_add(f, g, h);
+};
+
+// void nfz_add_fmpz(nfz_t f, const nfz_t g, const fmpz_t h, const nfz_ctx_t ctx);
+
+// void nfz_add_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx);
+
+static __inline__ void nfz_sub(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
+{
+  fmpz_poly_sub(f, g, h);
+};
+
+// void nfz_sub_fmpz(nfz_t f, const nfz_t g, const fmpz_t h, const nfz_ctx_t ctx);
+
+// void nfz_sub_ui(nfz_t f, const nfz_t g, ulong x);
+
+void nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
+
+static __inline__ void nfz_mul_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_mul_ui(f, g, x);
+};
+
+static __inline__ void nfz_mul_si(nfz_t f, const nfz_t g, slong x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_mul_si(f, g, x);
+};
+
+void nfz_addmul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
+
+static __inline__ void nfz_addmul_fmpz(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_addmul_fmpz(f, g, x);
+};
+
+// void nfz_addmul_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx);
+
+void nfz_submul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
+
+static __inline__ void nfz_submul_fmpz(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_submul_fmpz(f, g, x);
+};
+
+// void nfz_submul_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx);
+
+void nfz_divexact(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
+
+static __inline__ void nfz_divexact_si(nfz_t f, const nfz_t g, slong x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_divexact_ui(f, g, x);
+};
+
+static __inline__ void nfz_divexact_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_divexact_si(f, g, x);
+};
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
+
