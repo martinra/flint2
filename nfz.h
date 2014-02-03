@@ -138,6 +138,10 @@ static __inline__ void nfz_reduce(nfz_t f, const nfz_ctx_t ctx)
   }
 };
 
+void _nfz_eval(fmpz * evl, const nfz_t f, const nfz_ctx_t ctx);
+
+void _nfz_interpolate(nfz_t f, const fmpz * evl, const nfz_ctx_t ctx);
+
 static __inline__ void nfz_add(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
 {
   fmpz_poly_add(f, g, h);

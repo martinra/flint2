@@ -28,19 +28,13 @@
 #include "nfz.h"
 
 void
-nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
+_nfz_eval(fmpz * evl, const nfz_t f, const nfz_ctx_t ctx)
 {
-  fmpz * g_evl = _fmpz_vec_init(ctx->deg);
-  fmpz * h_evl = _fmpz_vec_init(ctx->deg);
+  for (long i = 0; i < ctx->deg; ++i) {
+    fmpz_zero(evl + i);
 
-  _nfz_eval(g_evl, g, ctx);
-  _nfz_eval(h_evl, h, ctx);
-
-  for (long i = 0; i < ctx->deg; ++i)
-    fmpz_mul(g_evl + i, g_evl + i, h_evl + i);
-
-  _nfz_interpolate(f, g_evl, ctx);
-
-  _fmpz_vec_clear(g_evl, ctx->deg);
-  _fmpz_vec_clear(h_evl, ctx->deg);
+    fmpz * evl_row = ctx->evl_mat->rows[i];
+    for (long j = 0; j < ctx->deg; ++j)
+      fmpz_addmul(evl + i, f->coeffs + j, evl_row + j);
+  }
 }

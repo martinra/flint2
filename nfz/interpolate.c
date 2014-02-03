@@ -23,24 +23,25 @@
  
 ******************************************************************************/
 
-#include "fmpz_vec.h"
-
 #include "nfz.h"
 
+#include "fmpz_vec.h"
+
 void
-nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
+_nfz_interpolate(nfz_t f, const fmpz * evl, const nfz_ctx_t ctx)
 {
-  fmpz * g_evl = _fmpz_vec_init(ctx->deg);
-  fmpz * h_evl = _fmpz_vec_init(ctx->deg);
+  if (f->alloc < ctx->deg)
+    fmpz_poly_realloc(f, ctx->deg);
 
-  _nfz_eval(g_evl, g, ctx);
-  _nfz_eval(h_evl, h, ctx);
+  _fmpz_poly_set_length(f, 0);
+  for (long i = ctx->deg - 1; i >= 0; --i) {
+    fmpz_zero(f->coeffs + i);
 
-  for (long i = 0; i < ctx->deg; ++i)
-    fmpz_mul(g_evl + i, g_evl + i, h_evl + i);
+    fmpz * intrpl_row = ctx->intrpl_mat->rows[i];
+    for (long j = 0; j < ctx->deg; ++j)
+      fmpz_addmul(f->coeffs + i, evl + j, intrpl_row + j);
 
-  _nfz_interpolate(f, g_evl, ctx);
-
-  _fmpz_vec_clear(g_evl, ctx->deg);
-  _fmpz_vec_clear(h_evl, ctx->deg);
+    if (!fmpz_is_zero(f->coeffs + i))
+      _fmpz_poly_set_length(f, i + 1);
+  }
 }
