@@ -37,7 +37,7 @@ nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
     fmpz_zero(g_evl + i);
     fmpz_zero(h_evl + i);
 
-    fmpz * evl_row = ctx->evl_mat->rows + i;
+    fmpz * evl_row = ctx->evl_mat->rows[i];
     for (long j = 0; j < ctx->deg; ++j) {
       fmpz_addmul(g_evl + i, g->coeffs + j, evl_row + j);
       fmpz_addmul(h_evl + i, h->coeffs + j, evl_row + j);
@@ -53,7 +53,7 @@ nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
   for (long i = ctx->deg - 1; i >= 0; --i) {
     fmpz_zero(g->coeffs + i);
 
-    fmpz * intrpl_row = ctx->intrpl_mat + i;
+    fmpz * intrpl_row = ctx->intrpl_mat->rows[i];
     for (long j = 0; j < ctx->deg; ++j)
       fmpz_addmul(f->coeffs + i, g_evl + j, intrpl_row + j);
 
