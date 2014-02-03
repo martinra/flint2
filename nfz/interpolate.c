@@ -28,20 +28,17 @@
 #include "fmpz_vec.h"
 
 void
-_nfz_interpolate(nfz_t f, const fmpz * evl, const nfz_ctx_t ctx)
+_nfz_interpolate(fmpz * f, long * length, const fmpz * evl, const nfz_ctx_t ctx)
 {
-  if (f->alloc < ctx->deg)
-    fmpz_poly_realloc(f, ctx->deg);
-
-  _fmpz_poly_set_length(f, 0);
+  *length = 0;
   for (long i = ctx->deg - 1; i >= 0; --i) {
-    fmpz_zero(f->coeffs + i);
+    fmpz_zero(f + i);
 
     fmpz * intrpl_row = ctx->intrpl_mat->rows[i];
     for (long j = 0; j < ctx->deg; ++j)
-      fmpz_addmul(f->coeffs + i, evl + j, intrpl_row + j);
+      fmpz_addmul(f + i, evl + j, intrpl_row + j);
 
-    if (!fmpz_is_zero(f->coeffs + i))
-      _fmpz_poly_set_length(f, i + 1);
+    if (!fmpz_is_zero(f + i))
+      *length = i + 1;
   }
 }

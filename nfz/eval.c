@@ -28,13 +28,15 @@
 #include "nfz.h"
 
 void
-_nfz_eval(fmpz * evl, const nfz_t f, const nfz_ctx_t ctx)
+_nfz_eval(fmpz * evl, const fmpz * f, long length, const nfz_ctx_t ctx)
 {
+  if (length >= ctx->deg) length = ctx->deg;
+
   for (long i = 0; i < ctx->deg; ++i) {
     fmpz_zero(evl + i);
 
     fmpz * evl_row = ctx->evl_mat->rows[i];
-    for (long j = 0; j < ctx->deg; ++j)
-      fmpz_addmul(evl + i, f->coeffs + j, evl_row + j);
+    for (long j = 0; j < length; ++j)
+      fmpz_addmul(evl + i, f + j, evl_row + j);
   }
 }

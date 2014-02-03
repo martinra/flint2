@@ -33,13 +33,17 @@ nfz_divexact(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
   fmpz * g_evl = _fmpz_vec_init(ctx->deg);
   fmpz * h_evl = _fmpz_vec_init(ctx->deg);
 
-  _nfz_eval(g_evl, g, ctx);
-  _nfz_eval(h_evl, h, ctx);
+  _nfz_eval(g_evl, g->coeffs, fmpz_poly_length(g), ctx);
+  _nfz_eval(h_evl, h->coeffs, fmpz_poly_length(h), ctx);
 
   for (long i = 0; i < ctx->deg; ++i)
     fmpz_divexact(g_evl + i, g_evl + i, h_evl + i);
 
-  _nfz_interpolate(f, g_evl, ctx);
+  long f_length;
+  if (f->alloc < ctx->deg)
+    fmpz_poly_realloc(f, ctx->deg);
+  _nfz_interpolate(f->coeffs, &f_length, g_evl, ctx);
+  _fmpz_poly_set_length(f, f_length);
 
   _fmpz_vec_clear(g_evl, ctx->deg);
   _fmpz_vec_clear(h_evl, ctx->deg);
