@@ -89,6 +89,7 @@ static __inline__ void nfq_sub(nfq_t f, const nfq_t g, const nfq_t h, const nfz_
 // void nfq_sub_ui(nfq_t f, const nfq_t g, ulong x);
 
 void nfq_mul(nfq_t f, const nfq_t g, const nfq_t h, const nfz_ctx_t ctx);
+
 static __inline__ void nfq_mul_ui(nfq_t f, const nfq_t g, ulong x, const nfz_ctx_t ctx)
 {
   fmpq_poly_scalar_mul_ui(f, g, x);

@@ -37,7 +37,7 @@ nfq_mul(nfq_t f, const nfq_t g, const nfq_t h, const nfz_ctx_t ctx)
   _nfz_eval(h_evl, h->coeffs, h->length, ctx);
 
   for (long i = 0; i < ctx->deg; ++i)
-    fmpz_addmul(g_evl + i, g_evl + i, h_evl + i);
+    fmpz_mul(g_evl + i, g_evl + i, h_evl + i);
 
   long f_length;
   if (f->alloc < ctx->deg)
