@@ -23,16 +23,16 @@
  
 ******************************************************************************/
 
-#include "nfz.h"
+#include "nfq.h"
 
 void
-nfz_submul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
+nfq_addmul(nfq_t f, const nfq_t g, const nfq_t h, const nfz_ctx_t ctx)
 {
-  nfz_t tmp;
-  nfz_init(tmp, ctx);
+  nfq_t tmp;
+  nfq_init(tmp, ctx);
 
-  nfz_mul(tmp, g, h, ctx);
-  nfz_sub(f, f, tmp, ctx);
+  nfq_mul(tmp, g, h, ctx);
+  nfq_add(f, f, tmp, ctx);
 
-  nfz_clear(tmp, ctx);
+  nfq_clear(tmp, ctx);
 }
