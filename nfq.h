@@ -116,9 +116,9 @@ void nfq_submul(nfq_t f, const nfq_t g, const nfq_t h, const nfz_ctx_t ctx);
 
 void nfq_div(nfq_t f, const nfq_t g, const nfq_t h, const nfz_ctx_t ctx);
 
-// void nfq_divexact_si(nfq_t f, const nfq_t g, slong x, const nfz_ctx_t ctx)
+// void nfq_div_si(nfq_t f, const nfq_t g, slong x, const nfz_ctx_t ctx)
 
-// void nfq_divexact_ui(nfq_t f, const nfq_t g, slong x, const nfz_ctx_t ctx)
+// void nfq_div_ui(nfq_t f, const nfq_t g, slong x, const nfz_ctx_t ctx)
 
 
 #ifdef __cplusplus
