@@ -136,6 +136,8 @@ static __inline__ void nfz_reduce(nfz_t f, const nfz_ctx_t ctx)
       fmpz_submul(coeffs + i - (ctx->deg - k), coeffs + i, ctx->modulus->coeffs + k);
     fmpz_zero(coeffs + i);
   }
+  _fmpz_poly_set_length(f, ctx->deg);
+  _fmpz_poly_normalise(f);
 };
 
 void _nfz_eval(fmpz * evl, const fmpz * f, long length, const nfz_ctx_t ctx);

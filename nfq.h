@@ -61,13 +61,15 @@ static __inline__ void nfq_reduce(nfq_t f, const nfz_ctx_t ctx)
   long deg = fmpq_poly_degree(f);
   if (deg > ctx->deg) return;
 
-  fmpq * coeffs = f->coeffs;
+  fmpz * coeffs = f->coeffs;
 
   for (long i = deg - 1; i >= ctx->deg; --i) {
     for (long k = ctx->deg - 1; k >= 0; --k)
-      fmpq_submul(coeffs + i - (ctx->deg - k), coeffs + i, ctx->modulus->coeffs + k);
-    fmpq_zero(coeffs + i);
+      fmpz_submul(coeffs + i - (ctx->deg - k), coeffs + i, ctx->modulus->coeffs + k);
+    fmpz_zero(coeffs + i);
   }
+  _fmpq_poly_set_length(f, ctx->deg);
+  _fmpq_poly_normalise(f);
 };
 
 static __inline__ void nfq_add(nfq_t f, const nfq_t g, const nfq_t h, const nfz_ctx_t ctx)
