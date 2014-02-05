@@ -97,6 +97,13 @@ int nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx);
 
 // int nfz_mat_fprint(FILE * file, const nfz_mat_t mat);
 
+/* Windows ************************************************************/
+
+void nfz_mat_init_window_fmpz(fmpz_mat_t window, const nfz_mat_t mat, long n,
+			      const nfz_ctx_t ctx);
+
+void nfz_mat_clear_window_fmpz(fmpz_mat_t window, const nfz_ctx_t ctx);
+
 /* Transpose */
 
 void nfz_mat_transpose(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
