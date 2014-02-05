@@ -29,6 +29,7 @@
 #include "ulong_extras.h"
 #include "flint.h"
 #include "rank_profile.h"
+#include "fmpz_mat.h"
 #include "fmpq_mat.h"
 #include "nf_nmod_mat.h"
 #include "nfz.h"
@@ -75,6 +76,13 @@ nfz_mat_is_square(const nfz_mat_t mat, const nfz_ctx_t ctx)
     return (mat->r == mat->c);
 }
 
+/* Evaluation and interpolation ****************************************/
+
+void _nfz_mat_eval(fmpz_mat_struct * evl, const nfz_mat_t A, const nfz_ctx_t ctx);
+
+void _nfz_mat_interpolate(nfz_mat_t A, const fmpz_mat_struct * evl,
+			  const nfz_ctx_t ctx);
+
 /*  Assignment and basic manipulation  ***************************************/
 
 void nfz_mat_set(nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
@@ -117,10 +125,17 @@ void nfz_mat_sub(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B,
 
 /* Scalar operations */
 
-void nfz_mat_scalar_mul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c, const nfz_ctx_t ctx);
-void nfz_mat_scalar_mul_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c, const nfz_ctx_t ctx);
-void nfz_mat_scalar_mul_si(nfz_mat_t B, const nfz_mat_t A, slong c, const nfz_ctx_t ctx);
-void nfz_mat_scalar_mul_ui(nfz_mat_t B, const nfz_mat_t A, ulong c, const nfz_ctx_t ctx);
+void nfz_mat_scalar_mul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c,
+			    const nfz_ctx_t ctx);
+
+void nfz_mat_scalar_mul_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c,
+			     const nfz_ctx_t ctx);
+
+void nfz_mat_scalar_mul_si(nfz_mat_t B, const nfz_mat_t A, slong c,
+			   const nfz_ctx_t ctx);
+
+void nfz_mat_scalar_mul_ui(nfz_mat_t B, const nfz_mat_t A, ulong c,
+			   const nfz_ctx_t ctx);
 
 void nfz_mat_scalar_addmul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c, const nfz_ctx_t ctx);
 void nfz_mat_scalar_addmul_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c, const nfz_ctx_t ctx);
