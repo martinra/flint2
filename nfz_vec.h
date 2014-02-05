@@ -46,7 +46,7 @@ void _nfz_vec_set_nmod_vec(nfz * res,
 			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
 void _nfz_vec_get_nmod_vec(nf_nmod * res, 
-			   const nfz * poly, slong len,
+			   const nfz * src, slong len,
 			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
 /*  Reduction mod p **********************************************************/

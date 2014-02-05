@@ -144,6 +144,18 @@ void _nfz_eval(fmpz * evl, const fmpz * f, long length, const nfz_ctx_t ctx);
 
 void _nfz_interpolate(fmpz * f, long * length, const fmpz * evl, const nfz_ctx_t ctx);
 
+void static __inline__ nfz_get_nmod(nf_nmod_t f, const nfz_t g, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+{
+  fmpz_get_nmod_poly(f, g);
+};
+
+void static __inline__ nfz_set_nmod(nfz_t f, const nf_nmod_t g, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+{
+  fmpz_set_nmod_poly(f, g);
+};
+
+
+
 static __inline__ void nfz_add(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
 {
   fmpz_poly_add(f, g, h);
