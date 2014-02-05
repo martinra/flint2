@@ -35,19 +35,42 @@
 
 /*  Memory management  *******************************************************/
 
-nfz * _nfz_vec_init(slong len, const nfz_ctx_t ctx);
+static __inline__
+nfz * _nfz_vec_init(slong len, const nfz_ctx_t ctx)
+{
+  nfz * vec = (nfz *) flint_malloc(len * sizeof(nfz));
+  for (long i = 0; i < len; ++i)
+    nfz_init(vec + i, ctx);
+  return vec;
+};
 
-void _nfz_vec_clear(nfz * vec, slong len, const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_clear(nfz * vec, slong len, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; i++)
+    nfz_clear(vec + i, ctx);
+  flint_free(vec);
+};
 
 /*  Conversions  *************************************************************/
 
+static __inline__
 void _nfz_vec_set_nmod_vec(nfz * res, 
 			   const nf_nmod * src, slong len,
-			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
+			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_set_nmod(res + i, src + i, ctx_nmod, ctx);
+};
 
+static __inline__
 void _nfz_vec_get_nmod_vec(nf_nmod * res, 
 			   const nfz * src, slong len,
-			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
+			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_get_nmod(res + i, src + i, ctx_nmod, ctx);
+};
 
 /*  Reduction mod p **********************************************************/
 
