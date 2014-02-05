@@ -39,11 +39,11 @@ extern "C" {
 
 typedef struct
 {
-    nfz * entries;
+    fmpz * entries;
     slong r;
     slong c;
-    nfz ** rows;
-    nfz *** poly_coeffs;
+    fmpz ** rows;
+    fmpz *** poly_coeffs;
 }
 nfz_mat_struct;
 
@@ -56,13 +56,12 @@ typedef nfz_mat_struct nfz_mat_t[1];
 
 
 void nfz_mat_init(nfz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx);
+
 void nfz_mat_init_set(nfz_mat_t mat, const nfz_mat_t src, const nfz_ctx_t ctx);
-void nfz_mat_swap(nfz_mat_t mat1, nfz_mat_t mat2, const nfz_ctx_t ctx);
-void nfz_mat_set(nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
+
 void nfz_mat_clear(nfz_mat_t mat, const nfz_ctx_t ctx);
 
-int nfz_mat_equal(const nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
-int nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx);
+/* Basic properties **************************************************/
 
 static __inline__ int
 nfz_mat_is_empty(const nfz_mat_t mat, const nfz_ctx_t ctx)
@@ -76,8 +75,23 @@ nfz_mat_is_square(const nfz_mat_t mat, const nfz_ctx_t ctx)
     return (mat->r == mat->c);
 }
 
+/*  Assignment and basic manipulation  ***************************************/
+
+void nfz_mat_set(nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
+
+void nfz_mat_swap(nfz_mat_t mat1, nfz_mat_t mat2, const nfz_ctx_t ctx);
+
 void nfz_mat_zero(nfz_mat_t mat, const nfz_ctx_t ctx);
+
 void nfz_mat_one(nfz_mat_t mat, const nfz_ctx_t ctx);
+
+/*  Comparison  **************************************************************/
+
+int nfz_mat_equal(const nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
+
+int nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx);
+
+
 
 
 // int nfz_mat_fprint(FILE * file, const nfz_mat_t mat);
@@ -143,7 +157,7 @@ void nfz_mat_det(nfz_t det, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 /* Characteristic polynomial ************************************************/
 
-void nfz_mat_charpoly(nfz_poly_t cp, const nfz_mat_t mat, const nfz_ctx_t ctx);
+// void nfz_mat_charpoly(nfz_poly_t cp, const nfz_mat_t mat, const nfz_ctx_t ctx);
 
 /* Rank *********************************************************************/
 
