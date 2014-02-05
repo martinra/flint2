@@ -76,6 +76,13 @@ nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)
 
 void _nf_nmod_reduction_mat(nmod_mat_t mat, const nmod_poly_t modulus, ulong deg_bd);
 
+/* Number field elements mod N ****************************************/
+
+typedef nmod_poly_struct nf_nmod;
+
+typedef nf_nmod nf_nmod_t[1];
+
+
 #ifdef __cplusplus
 }
 #endif
