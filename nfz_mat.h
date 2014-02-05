@@ -1,4 +1,4 @@
-/*=============================================================================
+o/*=============================================================================
 
     This file is part of FLINT.
 
@@ -149,10 +149,17 @@ void nfz_mat_scalar_addmul_si(nfz_mat_t B, const nfz_mat_t A, slong c,
 void nfz_mat_scalar_addmul_ui(nfz_mat_t B, const nfz_mat_t A, ulong c,
 			      const nfz_ctx_t ctx);
 
-void nfz_mat_scalar_submul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c, const nfz_ctx_t ctx);
-void nfz_mat_scalar_submul_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c, const nfz_ctx_t ctx);
-void nfz_mat_scalar_submul_si(nfz_mat_t B, const nfz_mat_t A, slong c, const nfz_ctx_t ctx);
-void nfz_mat_scalar_submul_ui(nfz_mat_t B, const nfz_mat_t A, ulong c, const nfz_ctx_t ctx);
+void nfz_mat_scalar_submul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c,
+			       const nfz_ctx_t ctx);
+
+void nfz_mat_scalar_submul_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c,
+				const nfz_ctx_t ctx);
+
+void nfz_mat_scalar_submul_si(nfz_mat_t B, const nfz_mat_t A, slong c,
+			      const nfz_ctx_t ctx);
+
+void nfz_mat_scalar_submul_ui(nfz_mat_t B, const nfz_mat_t A, ulong c,
+			      const nfz_ctx_t ctx);
 
 void nfz_mat_scalar_divexact_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c, const nfz_ctx_t ctx);
 void nfz_mat_scalar_divexact_si(nfz_mat_t B, const nfz_mat_t A, slong c, const nfz_ctx_t ctx);
