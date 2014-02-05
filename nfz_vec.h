@@ -131,99 +131,221 @@ void _nfz_vec_neg(nfz * vec1, const nfz * vec2, slong len, const nfz_ctx_t ctx)
 
 /*  Comparison  **************************************************************/
 
+static __inline__
 int _nfz_vec_equal(const nfz * vec1, const nfz * vec2, slong len,
-		   const nfz_ctx_t ctx);
+		   const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    if (!nfz_equal(vec1 + i, vec2 + i, ctx))
+      return 0;
 
-int _nfz_vec_is_zero(const nfz * vec, slong len, const nfz_ctx_t ctx);
+  return 1;
+};
+
+static __inline__
+int _nfz_vec_is_zero(const nfz * vec, slong len, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    if (!nfz_is_zero(vec + i, ctx))
+      return 0;
+
+  return 1;
+};
 
 /*  Addition  ****************************************************************/
 
+static __inline__
 void _nfz_vec_add(nfz * res, const nfz * vec1, 
-		  const nfz * vec2, slong len2,
-		  const nfz_ctx_t ctx);
+		  const nfz * vec2, slong len,
+		  const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_add(res + i, vec1 + i, vec2 + i, ctx);
+};
 
+// void _nfz_vec_add_fmpz(nfz * res, const nfz * g, const fmpz * h, slong len, const nfz_ctx_t ctx);
+
+static __inline__
 void _nfz_vec_sub(nfz * res, const nfz * vec1, 
-		  const nfz * vec2, slong len2,
-		  const nfz_ctx_t ctx);
+		  const nfz * vec2, slong len,
+		  const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_sub(res + i, vec1 + i, vec2 + i, ctx);
+};
+
+// void _nfz_vec_sub_fmpz(nfz * res, const nfz * g, const fmpz * h, slong len, const nfz_ctx_t ctx);
 
 /*  Scalar multiplication and division  **************************************/
 
-void _nfz_vec_scalar_mul_nfz(nfz * vec1, 
-			     const nfz * vec2, slong len2, const nfz_t x,
-			     const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_scalar_mul(nfz * res, 
+			 const nfz * vec, slong len, const nfz_t c,
+			 const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_mul(res + i, vec + i, c, ctx);
+};
 
-void _nfz_vec_scalar_mul_fmpz(nfz * vec1, 
-			      const nfz * vec2, slong len2, const fmpz_t x,
-			      const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_scalar_mul_fmpz(nfz * res, 
+			      const nfz * vec, slong len, const fmpz_t c,
+			      const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_mul_fmpz(res + i, vec + i, c, ctx);
+};
 
-void _nfz_vec_scalar_mul_si(nfz * vec1, 
-			    const nfz * vec2, slong len2, slong c,
-			    const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_scalar_mul_si(nfz * res, 
+			    const nfz * vec, slong len, slong c,
+			    const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_mul_si(res + i, vec + i, c, ctx);
+};
 
-void _nfz_vec_scalar_mul_ui(nfz * vec1, 
-			    const nfz * vec2, slong len2, ulong c,
-			    const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_scalar_mul_ui(nfz * res, 
+			    const nfz * vec, slong len, ulong c,
+			    const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_mul_ui(res + i, vec + i, c, ctx);
+};
+
+static __inline__
+void _nfz_vec_scalar_divexact(nfz * res, const nfz * vec, 
+				   slong len, const nfz_t c,
+				   const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_divexact(res + i, vec + i, c, ctx);
+};
+
+static __inline__
+void _nfz_vec_scalar_divexact_fmpz(nfz * res, const nfz * vec, 
+				   slong len, const fmpz_t c,
+				   const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_divexact_fmpz(res + i, vec + i, c, ctx);
+};
+
+static __inline__
+void _nfz_vec_scalar_divexact_si(nfz * res, 
+				 const nfz * vec, slong len, slong c,
+				 const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_divexact_si(res + i, vec + i, c, ctx);
+};
+
+static __inline__
+void _nfz_vec_scalar_divexact_ui(nfz * res, 
+				 const nfz * vec, slong len, ulong c,
+				 const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_divexact_ui(res + i, vec + i, c, ctx);
+};
+
+static __inline__
+void _nfz_vec_scalar_addmul_nfz(nfz * res,
+				const nfz * vec, slong len, const nfz_t c,
+				const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_addmul(res + i, vec + i, c, ctx);
+};
+
+static __inline__
+void _nfz_vec_scalar_addmul_fmpz(nfz * res,
+				 const nfz * vec, slong len, const fmpz_t c,
+				 const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_addmul_fmpz(res + i, vec + i, c, ctx);
+};
 
 
-// void _nfz_vec_scalar_mul_2exp(fmpz * vec1, 
-// 			      const fmpz * vec2, slong len2, ulong exp,
-// 			      const nfz_ctx_t ctx);
-
-void _nfz_vec_scalar_divexact_fmpz(nfz * vec1, const nfz * vec2, 
-				   slong len2, const fmpz_t x,
-				   const nfz_ctx_t ctx);
-
-void _nfz_vec_scalar_divexact_si(nfz * vec1, 
-				 const nfz * vec2, slong len2, slong c,
-				 const nfz_ctx_t ctx);
-
-void _nfz_vec_scalar_divexact_ui(nfz * vec1, 
-				 const nfz * vec2, slong len2, ulong c,
-				 const nfz_ctx_t ctx);
-
-void _nfz_vec_scalar_addmul_nfz(nfz * poly1, const nfz * poly2, 
-				slong len2, const nfz_t x,
-				const nfz_ctx_t ctx);
-
-void _nfz_vec_scalar_addmul_fmpz(nfz * poly1, const nfz * poly2, 
-				 slong len2, const fmpz_t x,
-				 const nfz_ctx_t ctx);
-
-void _nfz_vec_scalar_addmul_si(nfz * vec1, 
-			       const nfz * vec2, slong len2, slong c,
-			       const nfz_ctx_t ctx);
-
-void _nfz_vec_scalar_addmul_ui(nfz * vec1, 
-			       const nfz * vec2, slong len2, ulong c,
-			       const nfz_ctx_t ctx);
-
-void _fmpz_vec_scalar_addmul_si_2exp(fmpz * vec1, const fmpz * vec2, 
-                                               slong len2, slong c, ulong exp);
+/* static __inline__ */
+/* void _nfz_vec_scalar_addmul_si(nfz * res, */
+/* 			       const nfz * vec, slong len, slong c, */
+/* 			       const nfz_ctx_t ctx) */
+/* { */
+/*   for (long i = 0; i < len; ++i) */
+/*     nfz_addmul_si(res + i, vec + i, c, ctx); */
+/* }; */
 
 
-void _nfz_vec_scalar_submul_nfz(nfz * poly1, const nfz * poly2, 
-				slong len2, const nfz_t x,
-				const nfz_ctx_t ctx);
+/* static __inline__ */
+/* void _nfz_vec_scalar_addmul_ui(nfz * res, */
+/* 			       const nfz * vec, slong len, ulong c, */
+/* 			       const nfz_ctx_t ctx) */
+/* { */
+/*   for (long i = 0; i < len; ++i) */
+/*     nfz_addmul_ui(res + i, vec + i, c, ctx); */
+/* }; */
 
-void _nfz_vec_scalar_submul_fmpz(nfz * poly1, const nfz * poly2, 
-				 slong len2, const fmpz_t x,
-				 const nfz_ctx_t ctx);
 
-void _nfz_vec_scalar_submul_si(nfz * vec1, 
-			       const nfz * vec2, slong len2, slong c,
-			       const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_scalar_submul_nfz(nfz * res,
+				const nfz * vec, slong len, const nfz_t c,
+				const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_submul(res + i, vec + i, c, ctx);
+};
 
-void _nfz_vec_scalar_submul_ui(nfz * vec1, 
-			       const nfz * vec2, slong len2, ulong c,
-			       const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_scalar_submul_fmpz(nfz * res,
+				 const nfz * vec, slong len, const fmpz_t c,
+				 const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_submul_fmpz(res + i, vec + i, c, ctx);
+};
+
+
+/* static __inline__ */
+/* void _nfz_vec_scalar_submul_si(nfz * res, */
+/* 			       const nfz * vec, slong len, slong c, */
+/* 			       const nfz_ctx_t ctx) */
+/* { */
+/*   for (long i = 0; i < len; ++i) */
+/*     nfz_submul_si(res + i, vec + i, c, ctx); */
+/* }; */
+
+
+/* static __inline__ */
+/* void _nfz_vec_scalar_submul_ui(nfz * res, */
+/* 			       const nfz * vec, slong len, ulong c, */
+/* 			       const nfz_ctx_t ctx) */
+/* { */
+/*   for (long i = 0; i < len; ++i) */
+/*     nfz_submul_ui(res + i, vec + i, c, ctx); */
+/* }; */
 
 /*  Vector sum and product  **************************************************/
 
+static __inline__
 void _nfz_vec_sum(nfz_t res, const nfz * vec, slong len,
-		  const nfz_ctx_t ctx);
+		  const nfz_ctx_t ctx)
+{
+  nfz_zero(res, ctx);
+  for (long i = 0; i < len; ++i)
+    nfz_add(res, res, vec + i, ctx);
+};
 
+static __inline__
 void _nfz_vec_prod(nfz_t res, const nfz * vec, slong len,
-		   const nfz_ctx_t ctx);
+		   const nfz_ctx_t ctx)
+{
+  nfz_one(res, ctx);
+  for (long i = 0; i < len; ++i)
+    nfz_mul(res, res, vec + i, ctx);
+};
 
 #ifdef __cplusplus
 }

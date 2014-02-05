@@ -230,6 +230,18 @@ void nfz_neg(nfz_t f, const nfz_t g, const nfz_ctx_t ctx)
 
 /*  Comparison  **************************************************************/
 
+static __inline__
+int nfz_equal(const nfz_t f, const nfz_t g, const nfz_ctx_t ctx)
+{
+  return fmpz_poly_equal(f, g);
+};
+
+static __inline__
+int nfz_is_zero(const nfz_t f, const nfz_ctx_t ctx)
+{
+  return fmpz_poly_is_zero(f);
+};
+
 /*  Addition  ****************************************************************/
 
 static __inline__
@@ -262,6 +274,12 @@ void nfz_sub(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
 void nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
 
 static __inline__
+void nfz_mul_fmpz(nfz_t f, const nfz_t g, fmpz_t x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_mul_fmpz(f, g, x);
+};
+
+static __inline__
 void nfz_mul_si(nfz_t f, const nfz_t g, slong x, const nfz_ctx_t ctx)
 {
   fmpz_poly_scalar_mul_si(f, g, x);
@@ -274,6 +292,12 @@ void nfz_mul_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
 };
 
 void nfz_divexact(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
+
+static __inline__
+void nfz_divexact_fmpz(nfz_t f, const nfz_t g, const fmpz_t x, const nfz_ctx_t ctx)
+{
+  fmpz_poly_scalar_divexact_fmpz(f, g, x);
+};
 
 static __inline__
 void nfz_divexact_si(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
@@ -290,9 +314,9 @@ void nfz_divexact_ui(nfz_t f, const nfz_t g, slong x, const nfz_ctx_t ctx)
 void nfz_addmul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
 
 static __inline__
-void nfz_addmul_fmpz(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
+void nfz_addmul_fmpz(nfz_t f, const nfz_t g, const fmpz_t h, const nfz_ctx_t ctx)
 {
-  fmpz_poly_scalar_addmul_fmpz(f, g, x);
+  fmpz_poly_scalar_addmul_fmpz(f, g, h);
 };
 
 // void nfz_addmul_si(nfz_t f, const nfz_t g, slong x, const nfz_ctx_t ctx);
@@ -302,9 +326,9 @@ void nfz_addmul_fmpz(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
 void nfz_submul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
 
 static __inline__
-void nfz_submul_fmpz(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
+void nfz_submul_fmpz(nfz_t f, const nfz_t g, const fmpz_t h, const nfz_ctx_t ctx)
 {
-  fmpz_poly_scalar_submul_fmpz(f, g, x);
+  fmpz_poly_scalar_submul_fmpz(f, g, h);
 };
 
 // void nfz_submul_si(nfz_t f, const nfz_t g, slong x, const nfz_ctx_t ctx);
