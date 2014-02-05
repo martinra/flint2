@@ -38,10 +38,19 @@
 static __inline__
 nfz * _nfz_vec_init(slong len, const nfz_ctx_t ctx)
 {
-  nfz * vec = (nfz *) flint_malloc(len * sizeof(nfz));
+  nfz * res = (nfz *) flint_malloc(len * sizeof(nfz));
   for (long i = 0; i < len; ++i)
-    nfz_init(vec + i, ctx);
-  return vec;
+    nfz_init(res + i, ctx);
+  return res;
+};
+
+static __inline__
+nfz * _nfz_vec_init_set(const nfz * vec, slong len, const nfz_ctx_t ctx)
+{
+  nfz * res = _nfz_vec_init(len, ctx);
+  for (long i = 0; i < len; ++i)
+    nfz_set(res + i, vec + i, ctx);
+  return res;
 };
 
 static __inline__
