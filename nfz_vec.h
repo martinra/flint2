@@ -74,13 +74,23 @@ void _nfz_vec_get_nmod_vec(nf_nmod * res,
 
 /*  Reduction mod p **********************************************************/
 
+static __inline__
 void _nfz_vec_scalar_mod_fmpz(nfz * res, const nfz * vec, slong len,
 			      const fmpz_t p,
-			      const nfz_ctx_t ctx);
+			      const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_scalar_mod_fmpz(res + i, vec + i, p, ctx);
+};
 
+static __inline__
 void _nfz_vec_scalar_smod_fmpz(nfz * res, const nfz * vec, slong len,
 			       const fmpz_t p,
-			       const nfz_ctx_t ctx);
+			       const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_scalar_smod_fmpz(res + i, vec + i, p, ctx);
+};
 
 /*  Assignment and basic manipulation  ***************************************/
 
