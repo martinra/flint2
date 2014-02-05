@@ -85,29 +85,30 @@ void nfz_mat_zero(nfz_mat_t mat, const nfz_ctx_t ctx);
 
 void nfz_mat_one(nfz_mat_t mat, const nfz_ctx_t ctx);
 
+void nfz_mat_neg(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
+
 /*  Comparison  **************************************************************/
 
 int nfz_mat_equal(const nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
 
 int nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx);
 
-
-
+/*  Output  **************************************************************/
 
 // int nfz_mat_fprint(FILE * file, const nfz_mat_t mat);
 
 
-void nfz_mat_transpose(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 
+void nfz_mat_transpose(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 /* Addition and subtraction */
 
 void nfz_mat_add(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B,
 		 const nfz_ctx_t ctx);
 void nfz_mat_sub(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B, const nfz_ctx_t ctx);
-void nfz_mat_neg(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 /* Scalar operations */
+
 void nfz_mat_scalar_mul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c, const nfz_ctx_t ctx);
 void nfz_mat_scalar_mul_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c, const nfz_ctx_t ctx);
 void nfz_mat_scalar_mul_si(nfz_mat_t B, const nfz_mat_t A, slong c, const nfz_ctx_t ctx);
