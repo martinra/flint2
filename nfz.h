@@ -198,6 +198,36 @@ void nfz_scalar_smod_fmpz(nfz_t f, const nfz_t g, const fmpz_t p,
 
 /*  Assignment and basic manipulation  ***************************************/
 
+static __inline__
+void nfz_set(nfz_t f, const nfz_t g, const nfz_ctx_t ctx)
+{
+  fmpz_poly_set(f, g);
+};
+
+static __inline__
+void nfz_swap(nfz_t f, nfz_t g, const nfz_ctx_t ctx)
+{
+  fmpz_poly_swap(f, g);
+};
+
+static __inline__
+void nfz_zero(nfz_t f, const nfz_ctx_t ctx)
+{
+  fmpz_poly_zero(f);
+};
+
+static __inline__
+void nfz_one(nfz_t f, const nfz_ctx_t ctx)
+{
+  fmpz_poly_one(f);
+};
+
+static __inline__
+void nfz_neg(nfz_t f, const nfz_t g, const nfz_ctx_t ctx)
+{
+  fmpz_poly_neg(f, g);
+};
+
 /*  Comparison  **************************************************************/
 
 /*  Addition  ****************************************************************/

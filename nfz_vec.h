@@ -94,13 +94,40 @@ void _nfz_vec_scalar_smod_fmpz(nfz * res, const nfz * vec, slong len,
 
 /*  Assignment and basic manipulation  ***************************************/
 
-void _nfz_vec_set(nfz * vec1, const nfz * vec2, slong len2, const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_set(nfz * vec1, const nfz * vec2, slong len, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_set(vec1 + i, vec2 + i, ctx);
+};
 
-void _nfz_vec_swap(nfz * vec1, nfz * vec2, slong len2, const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_swap(nfz * vec1, nfz * vec2, slong len, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_swap(vec1 + i, vec2 + i, ctx);
+};
 
-void _nfz_vec_zero(nfz * vec, slong len, const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_zero(nfz * vec, slong len, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_zero(vec + i, ctx);
+};
 
-void _nfz_vec_neg(nfz * vec1, const nfz * vec2, slong len2, const nfz_ctx_t ctx);
+static __inline__
+void _nfz_vec_one(nfz * vec, slong len, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_one(vec + i, ctx);
+};
+
+static __inline__
+void _nfz_vec_neg(nfz * vec1, const nfz * vec2, slong len, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_neg(vec1 + i, vec2 + i, ctx);
+};
 
 /*  Comparison  **************************************************************/
 
