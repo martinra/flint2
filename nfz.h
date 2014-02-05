@@ -162,6 +162,11 @@ void _nfz_eval(fmpz * evl, const fmpz * f, long length, const nfz_ctx_t ctx);
 void _nfz_interpolate(fmpz * f, long * length, const fmpz * evl,
 		      const nfz_ctx_t ctx);
 
+void _nfz_eval_pptr(fmpz ** evl, const fmpz ** f, long length, const nfz_ctx_t ctx);
+
+void _nfz_interpolate_pptr(fmpz ** f, long * length, const fmpz ** evl,
+			   const nfz_ctx_t ctx);
+
 /*  Conversions  *************************************************************/
 
 static __inline__
