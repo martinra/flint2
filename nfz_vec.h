@@ -35,9 +35,9 @@
 
 /*  Memory management  *******************************************************/
 
-nfz * _nfz_vec_init(slong len);
+nfz * _nfz_vec_init(slong len, const nfz_ctx_t ctx);
 
-void _nfz_vec_clear(nfz * vec, slong len);
+void _nfz_vec_clear(nfz * vec, slong len, const nfz_ctx_t ctx);
 
 /*  Conversions  *************************************************************/
 
