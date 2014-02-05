@@ -112,7 +112,8 @@ void nfz_mat_transpose(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 void nfz_mat_add(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B,
 		 const nfz_ctx_t ctx);
-void nfz_mat_sub(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B, const nfz_ctx_t ctx);
+void nfz_mat_sub(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B,
+		 const nfz_ctx_t ctx);
 
 /* Scalar operations */
 
