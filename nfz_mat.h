@@ -97,7 +97,7 @@ int nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx);
 
 // int nfz_mat_fprint(FILE * file, const nfz_mat_t mat);
 
-
+/* Transpose */
 
 void nfz_mat_transpose(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 

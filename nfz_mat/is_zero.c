@@ -30,16 +30,13 @@
 int
 nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx)
 {
-  slong j;
-
   if (mat->r == 0 || mat->c == 0)
     return 1;
 
-  for (j = 0; j < mat->r; j++)
-  {
-    if (!_nfz_vec_is_zero(mat->rows[j], mat->c, ctx))
-      return 0;
-  }
+  for (long n = 0; n < ctx->deg; ++n)
+    for (long j = 0; j < mat->r; ++j)
+      if (!_fmpz_vec_is_zero(mat->poly_coeffs[n][j], mat1->c))
+	return 0;
 
   return 1;
 }
