@@ -61,46 +61,6 @@ void _nfz_vec_clear(nfz * vec, slong len, const nfz_ctx_t ctx)
   flint_free(vec);
 };
 
-/*  Conversions  *************************************************************/
-
-static __inline__
-void _nfz_vec_set_nmod_vec(nfz * res, 
-			   const nf_nmod * src, slong len,
-			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
-{
-  for (long i = 0; i < len; ++i)
-    nfz_set_nmod(res + i, src + i, ctx_nmod, ctx);
-};
-
-static __inline__
-void _nfz_vec_get_nmod_vec(nf_nmod * res, 
-			   const nfz * src, slong len,
-			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
-{
-  for (long i = 0; i < len; ++i)
-    nfz_get_nmod(res + i, src + i, ctx_nmod, ctx);
-};
-
-/*  Reduction mod p **********************************************************/
-
-static __inline__
-void _nfz_vec_scalar_mod_fmpz(nfz * res, const nfz * vec, slong len,
-			      const fmpz_t p,
-			      const nfz_ctx_t ctx)
-{
-  for (long i = 0; i < len; ++i)
-    nfz_scalar_mod_fmpz(res + i, vec + i, p, ctx);
-};
-
-static __inline__
-void _nfz_vec_scalar_smod_fmpz(nfz * res, const nfz * vec, slong len,
-			       const fmpz_t p,
-			       const nfz_ctx_t ctx)
-{
-  for (long i = 0; i < len; ++i)
-    nfz_scalar_smod_fmpz(res + i, vec + i, p, ctx);
-};
-
 /*  Assignment and basic manipulation  ***************************************/
 
 static __inline__
@@ -159,6 +119,46 @@ int _nfz_vec_is_zero(const nfz * vec, slong len, const nfz_ctx_t ctx)
       return 0;
 
   return 1;
+};
+
+/*  Conversions  *************************************************************/
+
+static __inline__
+void _nfz_vec_set_nmod_vec(nfz * res, 
+			   const nf_nmod * src, slong len,
+			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_set_nmod(res + i, src + i, ctx_nmod, ctx);
+};
+
+static __inline__
+void _nfz_vec_get_nmod_vec(nf_nmod * res, 
+			   const nfz * src, slong len,
+			   const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_get_nmod(res + i, src + i, ctx_nmod, ctx);
+};
+
+/*  Reduction mod p **********************************************************/
+
+static __inline__
+void _nfz_vec_scalar_mod_fmpz(nfz * res, const nfz * vec, slong len,
+			      const fmpz_t p,
+			      const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_scalar_mod_fmpz(res + i, vec + i, p, ctx);
+};
+
+static __inline__
+void _nfz_vec_scalar_smod_fmpz(nfz * res, const nfz * vec, slong len,
+			       const fmpz_t p,
+			       const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_scalar_smod_fmpz(res + i, vec + i, p, ctx);
 };
 
 /*  Addition  ****************************************************************/
