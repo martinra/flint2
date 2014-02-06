@@ -33,29 +33,27 @@
 void nfz_mat_mul(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B,
 		 const nfz_ctx_t ctx)
 {
-  long n;
+  fmpz_mat_struct * A_evl = _nfz_mat_eval_init(A->r, A->c, ctx);
+  fmpz_mat_struct * B_evl = _nfz_mat_eval_init(B->r, B->c, ctx);
+  fmpz_mat_struct * C_evl;
+  if (C->r == A->r && C->c == A->c)
+    C_evl = A_evl;
+  else if (C->r == B->r && C->c == B->c)
+    C_evl = B_evl;
+  else
+    C_evl = _nfz_mat_eval_init(C->r, C->c, ctx);
 
-  fmpz_mat_struct * AC_evl =
-    (fmpz_mat_struct *) flint_malloc(ctx->deg * sizeof(fmpz_mat_struct));
-  fmpz_mat_struct * B_evl =
-    (fmpz_mat_struct *) flint_malloc(ctx->deg * sizeof(fmpz_mat_struct));
-  for (n = 0; n < ctx->deg; ++n) {
-    fmpz_mat_init(AC_evl + n, A->r, A->c);
-    fmpz_mat_init(B_evl + n, A->r, A->c);
-  }
 
-  _nfz_mat_eval(AC_evl, A, ctx);
+  _nfz_mat_eval(A_evl, A, ctx);
   _nfz_mat_eval(B_evl, B, ctx);
 
-  for (n = 0; n < ctx->deg; ++n)
-    fmpz_mat_mul(AC_evl + n, AC_evl + n, B_evl + n);
+  for (long n = 0; n < ctx->deg; ++n)
+    fmpz_mat_mul(C_evl + n, A_evl + n, B_evl + n);
 
-  _nfz_mat_interpolate(C, AC_evl, ctx);
+  _nfz_mat_interpolate(C, C_evl, ctx);
 
-  for (n = 0; n < ctx->deg; ++n) {
-    fmpz_mat_clear(AC_evl + n);
-    fmpz_mat_clear(B_evl + n);
-  }
-  flint_free(AC_evl);
-  flint_free(B_evl);
+  _nfz_mat_eval_clear(A_evl, ctx);
+  _nfz_mat_eval_clear(B_evl, ctx);
+  if ((C->r != A->r || C->c != A->c) && (C->r != B->r || C->c != B->c))
+    _nfz_mat_eval_clear(C_evl, ctx);
 }
