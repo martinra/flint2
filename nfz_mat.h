@@ -200,16 +200,6 @@ void nfz_mat_sqr(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 void nfz_mat_pow(nfz_mat_t B, const nfz_mat_t A, ulong exp, const nfz_ctx_t ctx);
 
-/* Modular gaussian elimination *********************************************/
-
-slong nfz_mat_rref_mod(nfz_mat_t B, nfz_t den, const nfz_mat_t A, const nfz_ctx_t ctx);
-
-slong _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, nfz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, int (*next_prime)(const mp_limb_t));
-
-slong _nfz_mat_first_non_zero_entry(nfz_t * entry, const nfz_mat_t A, slong r, slong c, const nfz_ctx_t ctx);
-
-void nfz_mat_coeff_bound(nfz_t bound, const nfz_mat_t A, const nfz_ctx_t ctx);
-
 /* Trace ********************************************************************/
 
 void nfz_mat_trace(nfz_t trace, const nfz_mat_t A, const nfz_ctx_t ctx);
@@ -228,20 +218,38 @@ slong nfz_mat_rank(const nfz_mat_t A, const nfz_ctx_t ctx);
 
 slong nfz_mat_rank_profile(rank_profile_t rk_prof, const nfz_mat_t A, const nfz_ctx_t ctx);
 
+/* Modular gaussian elimination *********************************************/
+
+// todo: implement
+slong nfz_mat_rref_mod(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx);
+
+slong _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, int (*next_prime)(const mp_limb_t));
+
+slong _nfz_mat_first_non_zero_entry(nfz_t * entry, const nfz_mat_t A, slong r, slong c, const nfz_ctx_t ctx);
+
+void nfz_mat_coeff_bound(fmpz_t bound, const nfz_mat_t A, const nfz_ctx_t ctx);
+
 /* Nonsingular solving ******************************************************/
 
-int nfz_mat_solve(nfz_mat_t X, nfz_t den,
-        const nfz_mat_t A, const nfz_mat_t B, const nfz_ctx_t ctx);
-
+// todo: implement
 int nfz_mat_solve_fflu(nfz_mat_t X, nfz_t den,
         const nfz_mat_t A, const nfz_mat_t B, const nfz_ctx_t ctx);
 
+static __inline__
+int nfz_mat_solve(nfz_mat_t X, nfz_t den,
+        const nfz_mat_t A, const nfz_mat_t B, const nfz_ctx_t ctx)
+{
+  return nfz_mat_solve_fflu(X, den, A, B, ctx);
+};
+
 /* Nullspace ****************************************************************/
 
+// todo: implement
 slong nfz_mat_nullspace(nfz_mat_t res, const nfz_mat_t mat, const nfz_ctx_t ctx);
 
 /* Inverse ******************************************************************/
 
+// todo: implement
 int nfz_mat_inv(nfz_mat_t B, nfz_t den, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 /* Modular reduction and reconstruction *************************************/

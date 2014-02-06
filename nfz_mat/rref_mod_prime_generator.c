@@ -71,7 +71,7 @@ _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, co
   fmpz_mul_ui(A_height_bd, A_height_bd, A->c);
 
   p = next_prime(1 << 27);
-  while (true)
+  while (1)
     {
       // todo: rename _flint_cp/cmp_rk_prof to some matrix function;
       // probably fmpz_mat is the best place for this
