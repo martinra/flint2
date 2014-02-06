@@ -200,7 +200,6 @@ void nfz_mat_sqr(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 void nfz_mat_pow(nfz_mat_t B, const nfz_mat_t A, ulong exp, const nfz_ctx_t ctx);
 
-
 /* Modular gaussian elimination *********************************************/
 
 slong nfz_mat_rref_mod(nfz_mat_t B, nfz_t den, const nfz_mat_t A, const nfz_ctx_t ctx);
@@ -211,10 +210,9 @@ slong _nfz_mat_first_non_zero_entry(nfz_t * entry, const nfz_mat_t A, slong r, s
 
 void nfz_mat_coeff_bound(nfz_t bound, const nfz_mat_t A, const nfz_ctx_t ctx);
 
-
 /* Trace ********************************************************************/
 
-void nfz_mat_trace(nfz_t trace, const nfz_mat_t mat, const nfz_ctx_t ctx);
+void nfz_mat_trace(nfz_t trace, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 /* Determinant **************************************************************/
 
