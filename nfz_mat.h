@@ -1,4 +1,4 @@
-o/*=============================================================================
+/*=============================================================================
 
     This file is part of FLINT.
 
@@ -68,15 +68,33 @@ static __inline__ int
 nfz_mat_is_empty(const nfz_mat_t mat, const nfz_ctx_t ctx)
 {
     return (mat->r == 0) || (mat->c == 0);
-}
+};
 
 static __inline__ int
 nfz_mat_is_square(const nfz_mat_t mat, const nfz_ctx_t ctx)
 {
     return (mat->r == mat->c);
-}
+};
 
 /* Evaluation and interpolation ****************************************/
+
+static __inline__
+fmpz_mat_struct * _nfz_mat_eval_init(long r, long c, const nfz_ctx_t ctx)
+{
+  fmpz_mat_struct * evl =
+    (fmpz_mat_struct *) flint_malloc(ctx->deg * sizeof(fmpz_mat_struct));
+  for (long n = 0; n < ctx->deg; ++n)
+    fmpz_mat_init(evl + n, r, c);
+  return evl;
+};
+
+static __inline__
+void _nfz_mat_eval_clear(fmpz_mat_struct * evl, const nfz_ctx_t ctx)
+{
+  for (long n = 0; n < ctx->deg; ++n)
+    fmpz_mat_clear(evl + n);
+  flint_free(evl);
+};
 
 void _nfz_mat_eval(fmpz_mat_struct * evl, const nfz_mat_t A, const nfz_ctx_t ctx);
 
@@ -161,7 +179,7 @@ void nfz_mat_scalar_submul_si(nfz_mat_t B, const nfz_mat_t A, slong c,
 void nfz_mat_scalar_submul_ui(nfz_mat_t B, const nfz_mat_t A, ulong c,
 			      const nfz_ctx_t ctx);
 
-void nfz_mat_scalar_divexact_nfz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c,
+void nfz_mat_scalar_divexact_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c,
 				 const nfz_ctx_t ctx);
 
 void nfz_mat_scalar_divexact_fmpz(nfz_mat_t B, const nfz_mat_t A, const fmpz_t c,
@@ -175,7 +193,8 @@ void nfz_mat_scalar_divexact_ui(nfz_mat_t B, const nfz_mat_t A, ulong c,
 
 /* Multiplication */
 
-void nfz_mat_mul(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B, const nfz_ctx_t ctx);
+void nfz_mat_mul(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B,
+		 const nfz_ctx_t ctx);
 
 void nfz_mat_sqr(nfz_mat_t B, const nfz_mat_t A, const nfz_ctx_t ctx);
 

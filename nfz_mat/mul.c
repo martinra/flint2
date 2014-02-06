@@ -23,8 +23,6 @@
  
 ******************************************************************************/
 
-#include "fmpz.h"
-#include "fmpz_vec.h"
 #include "fmpz_mat.h"
 #include "nfz.h"
 #include "nfz_vec.h"
@@ -32,21 +30,32 @@
 #include "nfz_mat.h"
 
 
-void
-nfz_mat_scalar_mul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c,
-			 const nfz_ctx_t ctx)
+void nfz_mat_mul(nfz_mat_t C, const nfz_mat_t A, const nfz_mat_t B,
+		 const nfz_ctx_t ctx)
 {
-  fmpz_mat_struct * mat_evl = _nfz_mat_eval_init(A->r, A->c, ctx);
-  fmpz * c_evl = _fmpz_vec_init(ctx->deg);
+  long n;
 
-  _nfz_mat_eval(mat_evl, A, ctx);
-  _nfz_eval(c_evl, c->coeffs, fmpz_poly_length(c), ctx);
+  fmpz_mat_struct * AC_evl =
+    (fmpz_mat_struct *) flint_malloc(ctx->deg * sizeof(fmpz_mat_struct));
+  fmpz_mat_struct * B_evl =
+    (fmpz_mat_struct *) flint_malloc(ctx->deg * sizeof(fmpz_mat_struct));
+  for (n = 0; n < ctx->deg; ++n) {
+    fmpz_mat_init(AC_evl + n, A->r, A->c);
+    fmpz_mat_init(B_evl + n, A->r, A->c);
+  }
 
-  for (long n = 0; n < ctx->deg; ++n)
-    fmpz_mat_scalar_mul_fmpz(mat_evl + n, mat_evl + n, c_evl + n);
+  _nfz_mat_eval(AC_evl, A, ctx);
+  _nfz_mat_eval(B_evl, B, ctx);
 
-  _nfz_mat_interpolate(B, mat_evl, ctx);
+  for (n = 0; n < ctx->deg; ++n)
+    fmpz_mat_mul(AC_evl + n, AC_evl + n, B_evl + n);
 
-  _nfz_mat_eval_clear(mat_evl, ctx);
-  _fmpz_vec_clear(c_evl, ctx->deg);
+  _nfz_mat_interpolate(C, AC_evl, ctx);
+
+  for (n = 0; n < ctx->deg; ++n) {
+    fmpz_mat_clear(AC_evl + n);
+    fmpz_mat_clear(B_evl + n);
+  }
+  flint_free(AC_evl);
+  flint_free(B_evl);
 }
