@@ -26,7 +26,9 @@
 #include "nfz_mat.h"
 
 void
-nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const fmpz_t m1, const nf_nmod_mat_t in2, int sign, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const fmpz_t m1,
+		 const nf_nmod_mat_t in2, int sign,
+		 const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
 {
   int n, r, c;
   fmpz_t fmpz_out;
@@ -37,7 +39,9 @@ nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const fmpz_t m1, const nf_n
     for (r = 0; r < out->r; ++r)
       for (c = 0; c < out->c; ++c)
 	{
-	  fmpz_CRT_ui(fmpz_out, nfz_mat_entry(in1, n, r, c), m1, nf_nmod_mat_entry(in2, n, r, c), ctx_nmod->modulus->mod.n, sign);
+	  fmpz_CRT_ui(fmpz_out, nfz_mat_entry(in1, n, r, c), m1,
+		      nf_nmod_mat_entry(in2, n, r, c),
+		      ctx_nmod->modulus->mod.n, sign);
 	  fmpz_set(nfz_mat_entry(out, n, r, c), fmpz_out);
 	}
 
