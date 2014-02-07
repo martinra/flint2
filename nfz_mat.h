@@ -254,11 +254,15 @@ int nfz_mat_inv(nfz_mat_t B, nfz_t den, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 /* Modular reduction and reconstruction *************************************/
 
-void nfz_mat_set_nmod_mat(nfz_mat_t A, const nmod_mat_t Amod, const nfz_ctx_t ctx);
+void nfz_mat_set_nmod_mat(nfz_mat_t A, const nf_nmod_mat_t Amod,
+			  const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
-void nfz_mat_get_nmod_mat(nf_nmod_mat_t B, const nfz_mat_t A, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
+void nfz_mat_get_nmod_mat(nf_nmod_mat_t B, const nfz_mat_t A,
+			  const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
 
-void nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const nfz_t m1, const nf_nmod_mat_t in2, int sign, const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx);
+void nfz_mat_CRT_nmod(nfz_mat_t out, const nfz_mat_t in1, const nfz_t m1,
+		      const nf_nmod_mat_t in2, int sign, const nf_nmod_ctx_t ctx_nmod,
+		      const nfz_ctx_t ctx);
 
 #ifdef __cplusplus
 }

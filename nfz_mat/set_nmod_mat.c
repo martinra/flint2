@@ -19,15 +19,17 @@
 =============================================================================*/
 /******************************************************************************
 
-    Copyright (C) 2013 Martin Raum
- 
+    Copyright (C) 2014 Martin Raum
+
 ******************************************************************************/
+
+#include "fmpz_mat.h"
+#include "nf_nmod_mat.h"
 
 #include "nfz_mat.h"
 
-void
-nfz_mat_get_nmod_mat(nf_nmod_mat_t Amod, const nfz_mat_t A,
-		     const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
+void nfz_mat_set_nmod_mat(nfz_mat_t A, const nf_nmod_mat_t Amod,
+			  const nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx)
 {
   slong i, j, n;
   mp_limb_t m = nf_nmod_ctx_mod(ctx_nmod);
@@ -35,6 +37,15 @@ nfz_mat_get_nmod_mat(nf_nmod_mat_t Amod, const nfz_mat_t A,
   for (n = 0; n < ctx->deg; ++n)
     for (i = 0; i < A->r; ++i)
       for (j = 0; j < A->c; ++j)
-	*(nf_nmod_mat_entry_ref(Amod, n, i, j)) =
-	  fmpz_fdiv_ui(nfz_mat_entry(A, n, i, j), m);
+	fmpz_set_ui_smod(nfz_mat_entry(A, n, i, j),
+			 nf_nmod_mat_entry(Amod, n, i, j), m);
 }
+
+
+
+
+
+
+
+
+

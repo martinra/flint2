@@ -67,6 +67,13 @@ void _nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, c
 
 void nf_nmod_ctx_clear(nf_nmod_ctx_t ctx);
 
+static __inline__
+mp_limb_t nf_nmod_ctx_mod(const nf_nmod_ctx_t ctx)
+{
+  return nmod_poly_modulus(ctx->modulus);
+}
+
+
 int
 nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)
 {
