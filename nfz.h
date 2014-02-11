@@ -162,6 +162,18 @@ void nfz_reduce(nfz_t f, const nfz_ctx_t ctx)
 
 /* Evaluation and interpolation ***********************************************/
 
+static __inline__
+fmpz * _nfz_eval_init(const nfz_ctx_t ctx)
+{
+  return _fmpz_vec_init(ctx->evl_mat->r);
+}
+
+static __inline__
+void _nfz_eval_clear(fmpz * evl, const nfz_ctx_t ctx)
+{
+  _fmpz_vec_clear(evl, ctx->evl_mat->r);
+}
+
 void _nfz_eval(fmpz * evl, const fmpz * f, long length, const nfz_ctx_t ctx);
 
 void _nfz_interpolate(fmpz * f, long * length, const fmpz * evl,

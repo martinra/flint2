@@ -37,16 +37,16 @@ nfz_mat_scalar_mul_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c,
 			 const nfz_ctx_t ctx)
 {
   fmpz_mat_struct * mat_evl = _nfz_mat_eval_init(A->r, A->c, ctx);
-  fmpz * c_evl = _fmpz_vec_init(ctx->deg);
+  fmpz * c_evl = _nfz_eval_init(ctx);
 
   _nfz_mat_eval(mat_evl, A, ctx);
   _nfz_eval(c_evl, c->coeffs, fmpz_poly_length(c), ctx);
 
-  for (long n = 0; n < ctx->deg; ++n)
+  for (long n = 0; n < ctx->evl_mat->r; ++n)
     fmpz_mat_scalar_mul_fmpz(mat_evl + n, mat_evl + n, c_evl + n);
 
   _nfz_mat_interpolate(B, mat_evl, ctx);
 
   _nfz_mat_eval_clear(mat_evl, ctx);
-  _fmpz_vec_clear(c_evl, ctx->deg);
+  _nfz_eval_clear(c_evl, ctx);
 }
