@@ -38,6 +38,10 @@
 extern "C" {
 #endif
 
+/******************************************************************************/
+/* Matrices over number fields mod n ******************************************/
+/******************************************************************************/
+
 typedef struct
 {
     mp_limb_t * entries;
@@ -50,40 +54,68 @@ nf_nmod_mat_struct;
 
 typedef nf_nmod_mat_struct nf_nmod_mat_t[1];
 
+/* Memory managment ***********************************************************/
+
 #define nf_nmod_mat_entry(mat,n,i,j) ((mat)->poly_coeffs[(n)][(i)][(j)])
+
 #define nf_nmod_mat_entry_ref(mat,n,i,j) ((mat)->poly_coeffs[(n)][(i)] + (j))
+
 #define nf_nmod_mat_nrows(mat) ((mat)->r)
+
 #define nf_nmod_mat_ncols(mat) ((mat)->c)
 
-void nf_nmod_mat_init(nf_nmod_mat_t mat, slong rows, slong cols, const nf_nmod_ctx_t ctx);
-void nf_nmod_mat_init_set(nf_nmod_mat_t mat, const nf_nmod_mat_t src, const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_init(nf_nmod_mat_t mat, slong rows, slong cols,
+		      const nf_nmod_ctx_t ctx);
+
+void nf_nmod_mat_init_set(nf_nmod_mat_t mat, const nf_nmod_mat_t src,
+			  const nf_nmod_ctx_t ctx);
+
 void nf_nmod_mat_clear(nf_nmod_mat_t mat, const nf_nmod_ctx_t ctx);
 
-void nf_nmod_mat_set(nf_nmod_mat_t mat1, const nf_nmod_mat_t mat2, const nf_nmod_ctx_t ctx);
+/* Assignment and basic manipulation ******************************************/
 
-void nf_nmod_mat_init_coeff_mat(nmod_mat_t B, const nf_nmod_mat_t A, slong n, const nf_nmod_ctx_t ctx);
-
-void nf_nmod_mat_clear_coeff_mat(nmod_mat_t B, const nf_nmod_ctx_t ctx);
-
+void nf_nmod_mat_set(nf_nmod_mat_t mat1, const nf_nmod_mat_t mat2,
+		     const nf_nmod_ctx_t ctx);
 
 void nf_nmod_mat_zero(nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
 
+/* Windows ********************************************************************/
 
-void nf_nmod_mat_decompose_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_nmod_ctx_t * fq_ctxs, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
+// todo: rename these functions
 
-void nf_nmod_mat_reconstruct_components(nf_nmod_mat_t A, const nmod_mat_t * fp_comps, const fq_nmod_mat_t * fq_comps, const fq_nmod_ctx_t * fq_ctxs, const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_init_coeff_mat(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
+				const nf_nmod_ctx_t ctx);
 
-void _nf_nmod_mat_init_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_nmod_ctx_t * fq_ctxs, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_clear_coeff_mat(nmod_mat_t B, const nf_nmod_ctx_t ctx);
 
-void _nf_nmod_mat_clear_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps, fq_nmod_ctx_t * fq_ctxs, const nf_nmod_ctx_t ctx);
+/* Decomposition into Fq components *******************************************/
 
+void _nf_nmod_mat_init_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps,
+				  fq_nmod_ctx_t * fq_ctxs, const nf_nmod_mat_t A,
+				  const nf_nmod_ctx_t ctx);
 
-void nf_nmod_mat_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
+void _nf_nmod_mat_clear_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps,
+				   fq_nmod_ctx_t * fq_ctxs, const nf_nmod_ctx_t ctx);
 
+void nf_nmod_mat_decompose_components(nmod_mat_t * fp_comps, fq_nmod_mat_t * fq_comps,
+				      fq_nmod_ctx_t * fq_ctxs, const nf_nmod_mat_t A,
+				      const nf_nmod_ctx_t ctx);
 
-slong nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_reconstruct_components(nf_nmod_mat_t A, const nmod_mat_t * fp_comps,
+					const fq_nmod_mat_t * fq_comps,
+					const fq_nmod_ctx_t * fq_ctxs,
+					const nf_nmod_ctx_t ctx);
 
-slong _nf_nmod_mat_first_non_zero_entry(mp_limb_t * entry, const nf_nmod_mat_t A, slong r, slong c, const nf_nmod_ctx_t ctx);
+/* Gaussian elimination *******************************************************/
+
+void nf_nmod_mat_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A,
+				 const nf_nmod_ctx_t ctx);
+
+slong nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A,
+			       const nf_nmod_ctx_t ctx);
+
+slong _nf_nmod_mat_first_non_zero_entry(mp_limb_t * entry, const nf_nmod_mat_t A,
+					slong r, slong c, const nf_nmod_ctx_t ctx);
 
 #ifdef __cplusplus
 }
