@@ -30,8 +30,8 @@
 void
 nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
 {
-  fmpz * g_evl = _fmpz_vec_init(ctx->deg);
-  fmpz * h_evl = _fmpz_vec_init(ctx->deg);
+  fmpz * g_evl = _fmpz_vec_init(ctx->evl_mat->r);
+  fmpz * h_evl = _fmpz_vec_init(ctx->evl_mat->r);
 
   _nfz_eval(g_evl, g->coeffs, fmpz_poly_length(g), ctx);
   _nfz_eval(h_evl, h->coeffs, fmpz_poly_length(h), ctx);
@@ -45,6 +45,6 @@ nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
   _nfz_interpolate(f->coeffs, &f_length, g_evl, ctx);
   _fmpz_poly_set_length(f, f_length);
 
-  _fmpz_vec_clear(g_evl, ctx->deg);
-  _fmpz_vec_clear(h_evl, ctx->deg);
+  _fmpz_vec_clear(g_evl, ctx->evl_mat->r);
+  _fmpz_vec_clear(h_evl, ctx->evl_mat->r);
 }
