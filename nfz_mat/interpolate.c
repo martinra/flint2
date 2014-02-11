@@ -33,14 +33,15 @@ _nfz_mat_interpolate(nfz_mat_t A, const fmpz_mat_struct * evl,
   long i, j, n, tmp;
 
   fmpz ** mat_pptr = (fmpz **) flint_malloc(ctx->deg * sizeof(fmpz *));
-  fmpz ** evl_pptr = (fmpz **) flint_malloc(ctx->deg * sizeof(fmpz *));
+  fmpz ** evl_pptr = (fmpz **) flint_malloc(ctx->evl_mat->r * sizeof(fmpz *));
 
   for (i = 0; i < A->r; ++i)
     for (j = 0; j < A->c; ++j) {
-      for (n = 0; n < ctx->deg; ++n) {
+      for (n = 0; n < ctx->deg; ++n)
 	mat_pptr[n] = A->poly_coeffs[n][i] + j;
+      for (n = 0; n < ctx->evl_mat->r; ++n)
 	evl_pptr[n] = evl[n].rows[i] + j;
-      }
+
       _nfz_interpolate_pptr(mat_pptr, &tmp, (const fmpz **) evl_pptr, ctx);
     }
 
