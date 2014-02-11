@@ -101,7 +101,7 @@ void _nfz_mat_eval(fmpz_mat_struct * evl, const nfz_mat_t A, const nfz_ctx_t ctx
 void _nfz_mat_interpolate(nfz_mat_t A, const fmpz_mat_struct * evl,
 			  const nfz_ctx_t ctx);
 
-/*  Assignment and basic manipulation  ***************************************/
+/* Assignment and basic manipulation ******************************************/
 
 void nfz_mat_set(nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
 
@@ -123,7 +123,7 @@ int nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx);
 
 // int nfz_mat_fprint(FILE * file, const nfz_mat_t mat);
 
-/* Windows ************************************************************/
+/* Windows ********************************************************************/
 
 void nfz_mat_init_window_fmpz(fmpz_mat_t window, const nfz_mat_t mat, long n,
 			      const nfz_ctx_t ctx);

@@ -83,10 +83,10 @@ void nf_nmod_mat_zero(nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
 
 // todo: rename these functions
 
-void nf_nmod_mat_init_coeff_mat(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
-				const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_init_coeff_window(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
+				   const nf_nmod_ctx_t ctx);
 
-void nf_nmod_mat_clear_coeff_mat(nmod_mat_t B, const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_clear_coeff_window(nmod_mat_t B, const nf_nmod_ctx_t ctx);
 
 /* Decomposition into Fq components *******************************************/
 

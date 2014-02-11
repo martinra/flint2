@@ -26,6 +26,12 @@
 #include "nf_nmod_mat.h"
 
 void
-nf_nmod_mat_clear_coeff_mat(nmod_mat_t B, const nf_nmod_ctx_t ctx)
+nf_nmod_mat_init_coeff_window(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
+			      const nf_nmod_ctx_t ctx)
 {
+  B->entries = NULL;
+  B->r = A->r;
+  B->c = A->c;
+  B->rows = A->poly_coeffs[n];
+  B->mod = ctx->modulus->mod;
 }
