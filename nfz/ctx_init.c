@@ -43,15 +43,14 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
   
   // todo: use symmetry of these values to speed this up (hardly worth
   // it, if deg is not too large)
-  for (j = 0; j < evl_size; ++j)
-    {
+  for (i = 0; i < evl_size; ++i) {
       fmpz_set_ui(c, 1);
-      for (i = 0; i < evl_size; ++i)
+      for (j = 0; j < evl_size; ++j)
 	{
 	  fmpz_set(fmpz_mat_entry(ctx->evl_mat, i, j), c);
 
-	  if (i + 1 < evl_size)
-	    fmpz_mul_si(c, c, j - deg + 1);
+	  if (j + 1 < evl_size)
+	    fmpz_mul_si(c, c, i - deg + 1);
 	}
     }
   fmpz_mat_inv(ctx->intrpl_mat, ctx->intrpl_den, ctx->evl_mat);
