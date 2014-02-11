@@ -264,6 +264,15 @@ int nfz_is_zero(const nfz_t f, const nfz_ctx_t ctx)
   return fmpz_poly_is_zero(f);
 };
 
+/* Heights ********************************************************************/
+
+static __inline__
+void nfz_height(fmpz_t height, const nfz_t g)
+{
+  fmpz_poly_height(height, g);
+}
+
+
 /* Addition *******************************************************************/
 
 static __inline__
@@ -312,7 +321,7 @@ void nfz_mul_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
   fmpz_poly_scalar_mul_ui(f, g, x);
 };
 
-// void nfz_divexact(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
+void nfz_divexact(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
 
 static __inline__
 void nfz_divexact_fmpz(nfz_t f, const nfz_t g, const fmpz_t x, const nfz_ctx_t ctx)
