@@ -37,7 +37,9 @@
 extern "C" {
 #endif
 
+/*****************************************************************************/
 /* Number field context ******************************************************/
+/*****************************************************************************/
 
 typedef struct
 {
@@ -55,13 +57,13 @@ nfz_ctx_struct;
 
 typedef nfz_ctx_struct nfz_ctx_t[1];
 
-/* Memory managment **************************************************/
+/* Memory managment ***********************************************************/
 
 void nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t, const char *var);
 
 void nfz_ctx_clear(nfz_ctx_t ctx);
 
-/*  Parameters  ***************************************************/
+/* Parameters *****************************************************************/
 
 static __inline__
 slong nfz_ctx_degree(const nfz_ctx_t ctx)
@@ -69,7 +71,7 @@ slong nfz_ctx_degree(const nfz_ctx_t ctx)
   return fmpz_poly_degree(ctx->modulus);
 }
 
-/*  Output  ***************************************************/
+/* Output *********************************************************************/
 
 static __inline__
 int nfz_ctx_fprint(FILE * file, const nfz_ctx_t ctx)
@@ -95,16 +97,19 @@ void nfz_ctx_print(const nfz_ctx_t ctx)
     nfz_ctx_fprint(stdout, ctx);
 }
 
-/*  Reduction mod p **********************************************************/
-
-void nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong mod);
+/* Recuction mod number field modulus *****************************************/
 
 void _nfz_reduction_mat(fmpz_mat_t mat, const fmpz_poly_t modulus, ulong deg_bd);
 
 void _nfz_reduction_coeff_bound(fmpz_t bound, const fmpz_poly_t modulus, ulong deg_bd);
 
+/* Reduction mod p ************************************************************/
 
+void nfz_ctx_get_nmod_ctx(nf_nmod_ctx_t ctx_nmod, const nfz_ctx_t ctx, ulong mod);
+
+/******************************************************************************/
 /* Number field elements ******************************************************/
+/******************************************************************************/
 
 /* We implement elements of number fields (defined by monic
  * polynomials, say p) whose representation as a polynomial mod p has
@@ -116,7 +121,7 @@ typedef fmpz_poly_struct nfz;
 
 typedef nfz nfz_t[1];
 
-/* Memory managment **************************************************/
+/* Memory managment ***********************************************************/
 
 static __inline__
 void nfz_init(nfz_t f, const nfz_ctx_t ctx)
@@ -136,7 +141,7 @@ void nfz_clear(nfz_t f, const nfz_ctx_t ctx)
     fmpz_poly_clear(f);
 };
 
-/* Reduction of representatives ****************************************/
+/* Reduction of representatives ***********************************************/
 
 static __inline__
 void nfz_reduce(nfz_t f, const nfz_ctx_t ctx)
@@ -155,7 +160,7 @@ void nfz_reduce(nfz_t f, const nfz_ctx_t ctx)
   _fmpz_poly_normalise(f);
 };
 
-/* Evaluation and interpolation ****************************************/
+/* Evaluation and interpolation ***********************************************/
 
 void _nfz_eval(fmpz * evl, const fmpz * f, long length, const nfz_ctx_t ctx);
 
@@ -167,7 +172,7 @@ void _nfz_eval_pptr(fmpz ** evl, const fmpz ** f, long length, const nfz_ctx_t c
 void _nfz_interpolate_pptr(fmpz ** f, long * length, const fmpz ** evl,
 			   const nfz_ctx_t ctx);
 
-/*  Conversions  *************************************************************/
+/* Conversions ****************************************************************/
 
 static __inline__
 void nfz_get_nmod(nf_nmod_t f, const nfz_t g,
@@ -185,7 +190,7 @@ void nfz_set_nmod(nfz_t f, const nf_nmod_t g,
   fmpz_poly_set_nmod_poly(f, g);
 };
 
-/*  Reduction mod p **********************************************************/
+/* Reduction mod p ************************************************************/
 
 static __inline__
 void nfz_scalar_mod_fmpz(nfz_t f, const nfz_t g, const fmpz_t p,
@@ -201,7 +206,7 @@ void nfz_scalar_smod_fmpz(nfz_t f, const nfz_t g, const fmpz_t p,
   fmpz_poly_scalar_smod_fmpz(f, g, p);
 };
 
-/*  Assignment and basic manipulation  ***************************************/
+/* Assignment and basic manipulation ******************************************/
 
 static __inline__
 void nfz_set(nfz_t f, const nfz_t g, const nfz_ctx_t ctx)
@@ -233,7 +238,7 @@ void nfz_neg(nfz_t f, const nfz_t g, const nfz_ctx_t ctx)
   fmpz_poly_neg(f, g);
 };
 
-/*  Comparison  **************************************************************/
+/* Comparison *****************************************************************/
 
 static __inline__
 int nfz_equal(const nfz_t f, const nfz_t g, const nfz_ctx_t ctx)
@@ -247,7 +252,7 @@ int nfz_is_zero(const nfz_t f, const nfz_ctx_t ctx)
   return fmpz_poly_is_zero(f);
 };
 
-/*  Addition  ****************************************************************/
+/* Addition *******************************************************************/
 
 static __inline__
 void nfz_add(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
@@ -261,7 +266,6 @@ void nfz_add(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
 
 // void nfz_add_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx);
 
-
 static __inline__
 void nfz_sub(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
 {
@@ -274,7 +278,7 @@ void nfz_sub(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx)
 
 // void nfz_sub_ui(nfz_t f, const nfz_t g, ulong x);
 
-/*  Multiplication and division  **************************************/
+/* Multiplication and division ************************************************/
 
 void nfz_mul(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
 

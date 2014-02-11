@@ -35,7 +35,9 @@
 extern "C" {
 #endif
 
-/* Number field mod n context ************************************************/
+/******************************************************************************/
+/* Number field mod n context *************************************************/
+/******************************************************************************/
 
 typedef struct
 {
@@ -60,12 +62,19 @@ nf_nmod_ctx_struct;
 
 typedef nf_nmod_ctx_struct nf_nmod_ctx_t[1];
 
+/* Memory managment ***********************************************************/
 
-void nf_nmod_ctx_init(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const char *var);
+void nf_nmod_ctx_init(nf_nmod_ctx_t ctx, const nmod_poly_t modulus,
+		      const char *var);
 
-void _nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t ev_mat, const nmod_mat_t int_mat, const char *var);
+void _nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus,
+				 const nmod_mat_t ev_mat,
+				 const nmod_mat_t int_mat,
+				 const char *var);
 
 void nf_nmod_ctx_clear(nf_nmod_ctx_t ctx);
+
+/*  Parameters ****************************************************************/
 
 static __inline__
 mp_limb_t nf_nmod_ctx_mod(const nf_nmod_ctx_t ctx)
@@ -73,22 +82,33 @@ mp_limb_t nf_nmod_ctx_mod(const nf_nmod_ctx_t ctx)
   return nmod_poly_modulus(ctx->modulus);
 }
 
+static __inline__
+slong nf_nmod_ctx_degree(const nf_nmod_ctx_t ctx)
+{
+  return nmod_poly_degree(ctx->modulus);
+}
 
+static __inline__
 int
 nf_nmod_ctx_is_separable(const nf_nmod_ctx_t ctx)
 {
   return ctx->separable;
 }
 
+/*  Output ********************************************************************/
 
-void _nf_nmod_reduction_mat(nmod_mat_t mat, const nmod_poly_t modulus, ulong deg_bd);
+/* Recuction mod number field modulus *****************************************/
 
-/* Number field elements mod N ****************************************/
+void _nf_nmod_reduction_mat(nmod_mat_t mat, const nmod_poly_t modulus,
+			    ulong deg_bd);
+
+/******************************************************************************/
+/* Number field elements mod n ************************************************/
+/******************************************************************************/
 
 typedef nmod_poly_struct nf_nmod;
 
 typedef nf_nmod nf_nmod_t[1];
-
 
 #ifdef __cplusplus
 }
