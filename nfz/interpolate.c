@@ -31,11 +31,11 @@ void
 _nfz_interpolate(fmpz * f, long * length, const fmpz * evl, const nfz_ctx_t ctx)
 {
   *length = 0;
-  for (long i = ctx->deg - 1; i >= 0; --i) {
+  for (long i = ctx->intrpl_mat->r - 1; i >= 0; --i) {
     fmpz_zero(f + i);
 
     fmpz * intrpl_row = ctx->intrpl_mat->rows[i];
-    for (long j = 0; j < ctx->deg; ++j)
+    for (long j = 0; j < ctx->intrpl_mat->c; ++j)
       fmpz_addmul(f + i, evl + j, intrpl_row + j);
 
     if (!fmpz_is_zero(f + i))

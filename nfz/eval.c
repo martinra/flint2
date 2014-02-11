@@ -30,9 +30,9 @@
 void
 _nfz_eval(fmpz * evl, const fmpz * f, long length, const nfz_ctx_t ctx)
 {
-  if (length >= ctx->deg) length = ctx->deg;
+  if (length > ctx->evl_mat->c) length = ctx->evl_mat->c;
 
-  for (long i = 0; i < ctx->deg; ++i) {
+  for (long i = 0; i < ctx->evl_mat->r; ++i) {
     fmpz_zero(evl + i);
 
     fmpz * evl_row = ctx->evl_mat->rows[i];
