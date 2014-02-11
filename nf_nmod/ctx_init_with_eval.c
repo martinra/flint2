@@ -32,6 +32,8 @@ nnnn============================================================================
 void
 nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const nmod_mat_t evl_mat, const nmod_mat_t intrpl_mat, const char *var)
 {
+  /* note that we keep the reference to evl_mat and intrpl_mat.  So
+   * the caller may not free them. */
   nmod_t mod = modulus->mod;
 
   /* set the variable name */
@@ -48,11 +50,8 @@ nf_nmod_ctx_init_with_eval(nf_nmod_ctx_t ctx, const nmod_poly_t modulus, const n
   ulong big_size = 2 * deg - 1;
 
   /* set the evaluation and interpolation matrices */
-  if (big_size > mod.n)
-    {
-      nmod_mat_init_set(ctx->evl_mat, evl_mat);
-      nmod_mat_init_set(ctx->intrpl_mat, intrpl_mat);
-    }
+  ctx->evl_mat = evl_mat;
+  ctx->intrpl_mat = intrpl_mat;
 
   /* compute decomposition into copies of Fp and Fq */
   if (ctx->separable)
