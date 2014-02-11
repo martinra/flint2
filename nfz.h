@@ -321,6 +321,8 @@ void nfz_mul_ui(nfz_t f, const nfz_t g, ulong x, const nfz_ctx_t ctx)
   fmpz_poly_scalar_mul_ui(f, g, x);
 };
 
+void nfz_inv(nfz_t f, fmpz_t den, const nfz_t g, const nfz_ctx_t ctx);
+
 void nfz_divexact(nfz_t f, const nfz_t g, const nfz_t h, const nfz_ctx_t ctx);
 
 static __inline__
