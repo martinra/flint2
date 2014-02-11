@@ -36,6 +36,7 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
   slong evl_size = 2 * deg - 1;
 
   fmpz_t c;
+  fmpz_mat_t reduction_mat;
 
   fmpz_mat_init(ctx->evl_mat, evl_size, evl_size);
   fmpz_mat_init(ctx->intrpl_mat, evl_size, evl_size);
@@ -55,6 +56,11 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
     }
   fmpz_mat_inv(ctx->intrpl_mat, ctx->intrpl_den, ctx->evl_mat);
 
+  /* project the interpolations on to the space of reduced
+   * polynomial */
+  fmpz_mat_init(reduction_mat, deg, 2 * deg - 1);
+  _nfz_reduction_mat(reduction_mat, ctx->modulus, 2 * deg - 2);
+  fmpz_mat_mul(ctx->intrpl_mat, reduction_mat, ctx->intrpl_mat);
 
   /* set the variable name */
   ctx->var = flint_malloc(strlen(var) + 1);
@@ -67,4 +73,5 @@ nfz_ctx_init(nfz_ctx_t ctx, const fmpz_poly_t modulus, const char *var)
   ctx->deg = deg;
 
   fmpz_clear(c);
+  fmpz_mat_clear(reduction_mat);
 }
