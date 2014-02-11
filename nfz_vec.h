@@ -33,7 +33,7 @@
  extern "C" {
 #endif
 
-/*  Memory management  *******************************************************/
+/* Memory management **********************************************************/
 
 static __inline__
 nfz * _nfz_vec_init(slong len, const nfz_ctx_t ctx)
@@ -61,7 +61,7 @@ void _nfz_vec_clear(nfz * vec, slong len, const nfz_ctx_t ctx)
   flint_free(vec);
 };
 
-/*  Assignment and basic manipulation  ***************************************/
+/* Assignment and basic manipulation ******************************************/
 
 static __inline__
 void _nfz_vec_set(nfz * vec1, const nfz * vec2, slong len, const nfz_ctx_t ctx)
@@ -98,7 +98,7 @@ void _nfz_vec_neg(nfz * vec1, const nfz * vec2, slong len, const nfz_ctx_t ctx)
     nfz_neg(vec1 + i, vec2 + i, ctx);
 };
 
-/*  Comparison  **************************************************************/
+/* Comparison *****************************************************************/
 
 static __inline__
 int _nfz_vec_equal(const nfz * vec1, const nfz * vec2, slong len,
@@ -121,7 +121,7 @@ int _nfz_vec_is_zero(const nfz * vec, slong len, const nfz_ctx_t ctx)
   return 1;
 };
 
-/*  Conversions  *************************************************************/
+/* Conversions ****************************************************************/
 
 static __inline__
 void _nfz_vec_set_nmod_vec(nfz * res, 
@@ -141,7 +141,7 @@ void _nfz_vec_get_nmod_vec(nf_nmod * res,
     nfz_get_nmod(res + i, src + i, ctx_nmod, ctx);
 };
 
-/*  Reduction mod p **********************************************************/
+/* Reduction mod p ************************************************************/
 
 static __inline__
 void _nfz_vec_scalar_mod_fmpz(nfz * res, const nfz * vec, slong len,
@@ -161,7 +161,7 @@ void _nfz_vec_scalar_smod_fmpz(nfz * res, const nfz * vec, slong len,
     nfz_scalar_smod_fmpz(res + i, vec + i, p, ctx);
 };
 
-/*  Addition  ****************************************************************/
+/* Addition *******************************************************************/
 
 static __inline__
 void _nfz_vec_add(nfz * res, const nfz * vec1, 
@@ -185,7 +185,7 @@ void _nfz_vec_sub(nfz * res, const nfz * vec1,
 
 // void _nfz_vec_sub_fmpz(nfz * res, const nfz * g, const fmpz * h, slong len, const nfz_ctx_t ctx);
 
-/*  Scalar multiplication and division  **************************************/
+/* Scalar multiplication and division *****************************************/
 
 static __inline__
 void _nfz_vec_scalar_mul(nfz * res, 
@@ -223,14 +223,14 @@ void _nfz_vec_scalar_mul_ui(nfz * res,
     nfz_mul_ui(res + i, vec + i, c, ctx);
 };
 
-static __inline__
-void _nfz_vec_scalar_divexact(nfz * res, const nfz * vec, 
-				   slong len, const nfz_t c,
-				   const nfz_ctx_t ctx)
-{
-  for (long i = 0; i < len; ++i)
-    nfz_divexact(res + i, vec + i, c, ctx);
-};
+/* static __inline__ */
+/* void _nfz_vec_scalar_divexact(nfz * res, const nfz * vec,  */
+/* 				   slong len, const nfz_t c, */
+/* 				   const nfz_ctx_t ctx) */
+/* { */
+/*   for (long i = 0; i < len; ++i) */
+/*     nfz_divexact(res + i, vec + i, c, ctx); */
+/* }; */
 
 static __inline__
 void _nfz_vec_scalar_divexact_fmpz(nfz * res, const nfz * vec, 
@@ -336,7 +336,7 @@ void _nfz_vec_scalar_submul_fmpz(nfz * res,
 /*     nfz_submul_ui(res + i, vec + i, c, ctx); */
 /* }; */
 
-/*  Vector sum and product  **************************************************/
+/* Vector sum and product *****************************************************/
 
 static __inline__
 void _nfz_vec_sum(nfz_t res, const nfz * vec, slong len,
