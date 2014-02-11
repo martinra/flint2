@@ -174,7 +174,7 @@ void nfz_get_nmod(nf_nmod_t f, const nfz_t g,
 		  const nf_nmod_ctx_t ctx_nmod,
 		  const nfz_ctx_t ctx)
 {
-  fmpz_get_nmod_poly(f, g);
+  fmpz_poly_get_nmod_poly(f, g);
 };
 
 static __inline__
@@ -182,7 +182,7 @@ void nfz_set_nmod(nfz_t f, const nf_nmod_t g,
 		  const nf_nmod_ctx_t ctx_nmod,
 		  const nfz_ctx_t ctx)
 {
-  fmpz_set_nmod_poly(f, g);
+  fmpz_poly_set_nmod_poly(f, g);
 };
 
 /*  Reduction mod p **********************************************************/
