@@ -26,7 +26,7 @@
 #include "nf_nmod_mat.h"
 
 void
-nf_nmod_mat_init_coeff_window(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
+nf_nmod_mat_init_window_nomod(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
 			      const nf_nmod_ctx_t ctx)
 {
   B->entries = NULL;

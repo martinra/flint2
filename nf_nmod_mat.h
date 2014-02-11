@@ -83,10 +83,10 @@ void nf_nmod_mat_zero(nf_nmod_mat_t A, const nf_nmod_ctx_t ctx);
 
 // todo: rename these functions
 
-void nf_nmod_mat_init_coeff_window(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
+void nf_nmod_mat_init_window_nmod(nmod_mat_t B, const nf_nmod_mat_t A, slong n,
 				   const nf_nmod_ctx_t ctx);
 
-void nf_nmod_mat_clear_coeff_window(nmod_mat_t B, const nf_nmod_ctx_t ctx);
+void nf_nmod_mat_clear_window_nmod(nmod_mat_t B, const nf_nmod_ctx_t ctx);
 
 /* Decomposition into Fq components *******************************************/
 
@@ -106,13 +106,15 @@ void nf_nmod_mat_reconstruct_components(nf_nmod_mat_t A, const nmod_mat_t * fp_c
 					const fq_nmod_ctx_t * fq_ctxs,
 					const nf_nmod_ctx_t ctx);
 
+/* Rank ***********************************************************************/
+
+slong nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A,
+			       const nf_nmod_ctx_t ctx);
+
 /* Gaussian elimination *******************************************************/
 
 void nf_nmod_mat_rref_components(nf_nmod_mat_t B, const nf_nmod_mat_t A,
 				 const nf_nmod_ctx_t ctx);
-
-slong nf_nmod_mat_rank_profile(rank_profile_t rk_prof, const nf_nmod_mat_t A,
-			       const nf_nmod_ctx_t ctx);
 
 slong _nf_nmod_mat_first_non_zero_entry(mp_limb_t * entry, const nf_nmod_mat_t A,
 					slong r, slong c, const nf_nmod_ctx_t ctx);
