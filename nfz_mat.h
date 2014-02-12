@@ -118,9 +118,8 @@ void _nfz_mat_eval_entry(fmpz * evl, nfz_mat_t mat, slong i, slong j,
 void _nfz_mat_eval_row(fmpz ** evl, nfz_mat_t mat, slong r,
 		       slong start_col, slong end_col, const nfz_ctx_t ctx);
 
-// todo: implement
 // this is used indirectly in fflu
-void _nfz_mat_interpolate_sub_row(nfz_mat_t mat, fmpz ** row_evl, slong r,
+void _nfz_mat_interpolate_sub_row(nfz_mat_t mat, fmpz ** evl, slong r,
 				  slong start_col, slong end_col,
 				  const nfz_ctx_t ctx);
 
