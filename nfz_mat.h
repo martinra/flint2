@@ -112,7 +112,6 @@ void _nfz_mat_eval(fmpz_mat_struct * evl, const nfz_mat_t A,
 void _nfz_mat_interpolate(nfz_mat_t A, const fmpz_mat_struct * evl,
 			  const nfz_ctx_t ctx);
 
-// todo: implement
 void _nfz_mat_eval_entry(fmpz * evl, nfz_mat_t mat, slong r, slong c,
 			 const nfz_ctx_t ctx);
 
