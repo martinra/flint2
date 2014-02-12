@@ -223,14 +223,14 @@ void _nfz_vec_scalar_mul_ui(nfz * res,
     nfz_mul_ui(res + i, vec + i, c, ctx);
 };
 
-/* static __inline__ */
-/* void _nfz_vec_scalar_divexact(nfz * res, const nfz * vec,  */
-/* 				   slong len, const nfz_t c, */
-/* 				   const nfz_ctx_t ctx) */
-/* { */
-/*   for (long i = 0; i < len; ++i) */
-/*     nfz_divexact(res + i, vec + i, c, ctx); */
-/* }; */
+static __inline__
+void _nfz_vec_scalar_divexact(nfz * res, const nfz * vec,
+				   slong len, const nfz_t c,
+				   const nfz_ctx_t ctx)
+{
+  for (long i = 0; i < len; ++i)
+    nfz_divexact(res + i, vec + i, c, ctx);
+};
 
 static __inline__
 void _nfz_vec_scalar_divexact_fmpz(nfz * res, const nfz * vec, 

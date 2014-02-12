@@ -23,12 +23,6 @@
  
 ******************************************************************************/
 
-#include "fmpz.h"
-#include "fmpz_vec.h"
-#include "fmpz_mat.h"
-#include "nfz.h"
-#include "nfz_vec.h"
-
 #include "nfz_mat.h"
 
 
@@ -36,17 +30,17 @@ void
 nfz_mat_scalar_divexact_nfz(nfz_mat_t B, const nfz_mat_t A, const nfz_t c,
 			    const nfz_ctx_t ctx)
 {
-  fmpz_mat_struct * mat_evl = _nfz_mat_eval_init(A->r, A->c, ctx);
-  fmpz * c_evl = _fmpz_vec_init(ctx->deg);
 
-  _nfz_mat_eval(mat_evl, A, ctx);
-  _nfz_eval(c_evl, c->coeffs, fmpz_poly_length(c), ctx);
+  fmpz_t den;
+  nfz_t c_inv;
 
-  for (long n = 0; n < ctx->deg; ++n)
-    fmpz_mat_scalar_divexact_fmpz(mat_evl + n, mat_evl + n, c_evl + n);
+  fmpz_init(den);
+  nfz_init(c_inv, ctx);
 
-  _nfz_mat_interpolate(B, mat_evl, ctx);
+  nfz_inv(c_inv, den, c, ctx);
+  nfz_mat_scalar_mul_nfz(B, A, c_inv, ctx);
+  nfz_mat_scalar_divexact_fmpz(B, B, den, ctx);
 
-  flint_free(mat_evl);
-  _nfz_mat_eval_clear(mat_evl, ctx);
+  fmpz_clear(den);
+  nfz_clear(c_inv, ctx);
 }
