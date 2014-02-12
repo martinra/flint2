@@ -58,6 +58,9 @@ typedef nfz_mat_struct nfz_mat_t[1];
 
 #define nfz_mat_entry(mat,n,i,j) ((mat)->poly_coeffs[(n)][(i)] + (j))
 
+void nfz_mat_entry_nfz(nfz_t e, const nfz_mat_t A, slong r, slong c,
+		       const nfz_ctx_t ctx);
+
 #define nfz_mat_nrows(mat) ((mat)->r)
 
 #define nfz_mat_ncols(mat) ((mat)->c)
@@ -67,6 +70,7 @@ void nfz_mat_init(nfz_mat_t mat, slong rows, slong cols, const nfz_ctx_t ctx);
 void nfz_mat_init_set(nfz_mat_t mat, const nfz_mat_t src, const nfz_ctx_t ctx);
 
 void nfz_mat_clear(nfz_mat_t mat, const nfz_ctx_t ctx);
+
 
 /* Basic properties ***********************************************************/
 
@@ -108,6 +112,20 @@ void _nfz_mat_eval(fmpz_mat_struct * evl, const nfz_mat_t A,
 void _nfz_mat_interpolate(nfz_mat_t A, const fmpz_mat_struct * evl,
 			  const nfz_ctx_t ctx);
 
+// todo: implement
+void _nfz_mat_eval_entry(fmpz * evl, nfz_mat_t mat, slong r, slong c,
+			 const nfz_ctx_t ctx);
+
+// todo: implement
+void _nfz_mat_eval_row(fmpz ** evl, nfz_mat_t mat, slong r,
+		       slong start_col, slong end_col, const nfz_ctx_t ctx);
+
+// todo: implement
+// this is used indirectly in fflu
+void _nfz_mat_interpolate_sub_row(nfz_mat_t mat, fmpz ** row_evl, slong r,
+				  slong start_col, slong end_col,
+				  const nfz_ctx_t ctx);
+
 /* Assignment and basic manipulation ******************************************/
 
 void nfz_mat_set(nfz_mat_t mat1, const nfz_mat_t mat2, const nfz_ctx_t ctx);
@@ -131,6 +149,12 @@ int nfz_mat_is_zero(const nfz_mat_t mat, const nfz_ctx_t ctx);
 // int nfz_mat_fprint(FILE * file, const nfz_mat_t mat);
 
 /* Windows ********************************************************************/
+
+void nfz_mat_init_window(nfz_mat_t window, const nfz_mat_t mat,
+			 slong r1, slong c1, slong r2, slong c2,
+			 const nfz_ctx_t ctx);
+
+void nfz_mat_clear_window(nfz_mat_t window, const nfz_ctx_t ctx);
 
 void nfz_mat_init_window_fmpz(fmpz_mat_t window, const nfz_mat_t mat, long n,
 			      const nfz_ctx_t ctx);
@@ -223,16 +247,63 @@ void nfz_mat_det(nfz_t det, const nfz_mat_t A, const nfz_ctx_t ctx);
 
 slong nfz_mat_rank(const nfz_mat_t A, const nfz_ctx_t ctx);
 
-slong nfz_mat_rank_profile(rank_profile_t rk_prof, const nfz_mat_t A, const nfz_ctx_t ctx);
+slong nfz_mat_rank_profile(rank_profile_t rk_prof, const nfz_mat_t A,
+			   const nfz_ctx_t ctx);
+
+/* Permutations ***************************************************************/
+
+static __inline__ void
+nfz_mat_swap_rows(nfz_mat_t mat, slong * perm, slong r, slong s, const nfz_ctx_t ctx)
+{
+  if (r != s)
+  {
+    fmpz * u;
+    slong t;
+
+    if (perm)
+    {
+      t = perm[s];
+      perm[s] = perm[r];
+      perm[r] = t;
+    }
+
+    for (long n = 0; ctx->deg; ++n) {
+      u = mat->poly_coeffs[n][s];
+      mat->poly_coeffs[n][s] = mat->poly_coeffs[n][r];
+      mat->poly_coeffs[n][r] = u; 
+    }
+  }
+};
+
+/* Gaussian elimination *******************************************************/
+
+slong nfz_mat_find_pivot_any(const nfz_mat_t mat,
+			     slong start_row, slong end_row, slong c,
+			     const nfz_ctx_t ctx);
+
+void _nfz_mat_row_submul_entry(nfz_mat_t mat,
+			       slong r1, slong r2, slong start_col, slong end_col,
+			       slong er, slong ec, const nfz_ctx_t ctx);
+			 
+slong nfz_mat_fflu(nfz_mat_t B, nfz_t den, slong * perm,
+		   const nfz_mat_t A, int rank_check,
+		   const nfz_ctx_t ctx);
+
+// todo: implement
+slong nfz_mat_rref(nfz_mat_t B, fmpz_t den, const nfz_mat_t A,
+		   const nfz_ctx_t ctx);
 
 /* Modular gaussian elimination ***********************************************/
 
-// todo: implement
-slong nfz_mat_rref_mod(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx);
+slong nfz_mat_rref_mod(nfz_mat_t B, fmpz_t den, const nfz_mat_t A,
+		       const nfz_ctx_t ctx);
 
-slong _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A, const nfz_ctx_t ctx, int (*next_prime)(const mp_limb_t));
+slong _nfz_mat_rref_mod_prime_generator(nfz_mat_t B, fmpz_t den, const nfz_mat_t A,
+					const nfz_ctx_t ctx,
+					int (*next_prime)(const mp_limb_t));
 
-slong _nfz_mat_first_non_zero_entry(nfz_t * entry, const nfz_mat_t A, slong r, slong c, const nfz_ctx_t ctx);
+slong _nfz_mat_first_non_zero_entry(nfz_t * entry, const nfz_mat_t A,
+				    slong r, slong c, const nfz_ctx_t ctx);
 
 void nfz_mat_coeff_bound(fmpz_t bound, const nfz_mat_t A, const nfz_ctx_t ctx);
 

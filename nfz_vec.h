@@ -121,6 +121,13 @@ int _nfz_vec_is_zero(const nfz * vec, slong len, const nfz_ctx_t ctx)
   return 1;
 };
 
+/* Evaluation and interpolation ***********************************************/
+
+// todo: implement
+fmpz ** _nfz_vec_eval_init(slong len, const nfz_ctx_t ctx);
+
+void _nfz_vec_eval_clear(fmpz ** evl, const nfz_ctx_t ctx);
+
 /* Conversions ****************************************************************/
 
 static __inline__
